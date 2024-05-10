@@ -1,0 +1,12 @@
+html{
+    background-color: black;
+}
+#register_box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70%;
+    height: 70%;
+    background-color: black;
+    box-shadow: 10px 10px 5px 0 rgba(0,0,0,0.75);
+}
