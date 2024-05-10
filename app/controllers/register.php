@@ -1,5 +1,4 @@
 <?php
-
 class register extends  Controller
 {
     public $checkLogin = '';
