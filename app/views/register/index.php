@@ -13,38 +13,41 @@
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A accusamus mollitia, vero minima quam ratione obcaecati ipsam pariatur et placeat unde qui, veritatis corporis vitae sapiente. Eius facilis id delectus, odio aperiam ducimus ab cupiditate vero voluptate quam officiis nisi harum expedita. Amet consequatur laboriosam veritatis voluptas. Id porro quidem ipsum quo magnam odio voluptatum molestias dolore, nisi inventore saepe.</p>
                 </div>
             </div>
-            <form action="register.php" method="post">
+            <form action="register/insert_data" method="post">
                 <h1>Register</h1>
                 <div>
                     <label>
-                        First Name
+                        Username
                         <br>
-                        <input type="text" Name="f_name" placeholder="John" required>
+                        <input type="text" Name="username" placeholder="Max 16 characters." maxlength="16" required>
                     </label>
                 </div>
-                <div>
+                <!-- <div>
                     <label>
                         Last Name
                         <br>
-                        <input type="text" Name="l_name" placeholder="Doe" required>
+                        <input type="text" Name="l_name" placeholder="Doe" maxlength="16" required>
                     </label>
-                </div>
+                </div> -->
                 <div>
                     <label>
                         Password
                         <br>
-                        <input type="password" Name="user_pass" required maxlength="18" placeholder="Max 18 characters.">
+                        <input type="password" Name="password" required maxlength="18" placeholder="Max 18 characters.">
                     </label>
                 </div>
                 <div>
                     <label>
                         Confirm Password
                         <br>
-                        <input type="password" Name="confirm_pass" required maxlength="18" placeholder="Rewrite your password.">
+                        <input type="password" Name="confirm_password" required maxlength="18" placeholder="Rewrite your password.">
                     </label>
                 </div>
                 <div>
-                    <input class="colored_button" type="submit" placeholder="Register">
+                    <input class="colored_button" type="submit" value="Confirm">
+                </div>
+                <div>
+                    <a href="login">Trying to log in instead?</a>
                 </div>
             </form>
         </div>

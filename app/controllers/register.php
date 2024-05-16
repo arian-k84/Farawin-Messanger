@@ -1,5 +1,5 @@
 <?php
-class register extends  Controller
+class register extends Controller
 {
     public $checkLogin = '';
 
