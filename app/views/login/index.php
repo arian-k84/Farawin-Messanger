@@ -47,7 +47,7 @@
                     <input class="colored_button" type="submit" value="Confirm">
                 </div>
                 <div>
-                    <a href="register">Trying to register instead?</a>
+                    <a href="<?= URL ?>/register">Trying to register instead?</a>
                 </div>
             </form>
         </div>

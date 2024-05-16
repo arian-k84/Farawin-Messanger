@@ -7,7 +7,7 @@ class register extends Controller
     {
         parent::__construct();
         if ($this->checkLogin != FALSE) {
-            header("Location:" . URL);
+            header("Location: " . URL . "/index");
         }
     }
 

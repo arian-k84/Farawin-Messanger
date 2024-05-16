@@ -16,7 +16,7 @@ class model_register extends model
             if (sizeof($result) == 0) {
                 if($post['password']!=$post['confirm_password']){
                     echo "error";
-                    header("Location: register");
+                    header("Location: " . URL . "/register");
                     return;
                 }
                 $sql = "INSERT INTO users (username,password,register_date) VALUES (?,?,?)";
@@ -24,10 +24,10 @@ class model_register extends model
                 $this->doQuery($sql, $params);
 
                 echo "ok";
-                header("Location: login");
+                header("Location: ". URL . "/login");
             } else {
                 echo "error";
-                header("Location: register");
+                header("Location: ". URL . "/register");
             }
         }
     }

@@ -9,7 +9,7 @@ class Login extends Controller
         parent::__construct();
         $this->checkLogin = Model::session_get("username");
         if ($this->checkLogin != FALSE) {
-            header("Location:" . URL);
+            header("Location: " . URL);
         }
     }
 

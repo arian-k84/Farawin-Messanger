@@ -23,6 +23,7 @@ class model_login extends Model
             $this->session_set("username", $result[0]['username']);
             $this->checkLogin = $result[0]['username'];
             echo "ok";
+            header("Location: " . URL . "/index");
         }
     }
 }

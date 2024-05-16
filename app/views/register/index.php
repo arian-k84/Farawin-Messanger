@@ -47,9 +47,10 @@
                     <input class="colored_button" type="submit" value="Confirm">
                 </div>
                 <div>
-                    <a href="login">Trying to log in instead?</a>
+                    <a href="<?= URL ?>/login">Trying to log in instead?</a>
                 </div>
             </form>
         </div>
+        
     </body>
 </html>
