@@ -1,0 +1,2 @@
+index.php -> requires the core files
+core/messenger -> requires the controller files based on the given url and sends the user to the actual scripts

@@ -11,20 +11,25 @@ class model_login extends Model
 
     function check_data($post)
     {
-        echo $post['password'];
-        // echo md5($post['password']);
+        $response = array();
         $sql = "SELECT * FROM users WHERE username=? and password=?";
         $params = array($post['username'], md5($post['password']));
         $result = $this->doSelect($sql, $params);
 
         if (sizeof($result) == 0) {
-            echo "not found";
+            $response += array(
+                "type" => "error",
+                "code" => 0,
+            );
         } else {
             $this->session_set("username", $result[0]['username']);
             $this->checkLogin = $result[0]['username'];
-            echo "ok";
-            header("Location: " . URL . "/index");
+            $response += array(
+                "type" => "success",
+                "code" => 1,
+            );
+            // header("Location: " . URL . "/index");
         }
+        echo json_encode($response);
     }
 }
-?>

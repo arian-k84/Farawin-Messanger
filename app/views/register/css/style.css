@@ -13,6 +13,16 @@ html{
 .colored_button:hover{
     background-color: rgb(255, 165, 106) !important;
 }
+.error_text{
+    color: rgb(230, 15, 15);
+    font-size: 0.7em;
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+.hidden_text{
+    color: rgba(0,0,0,0);
+}
 #register_box{
     display: flex;
     width: 70%;
@@ -28,13 +38,14 @@ html{
 }
 #register_box>*{
     flex: 1 0 50%;
+    /* max-width: 100%; */
 }
 #register_box form{
     display: flex;
     align-items: center;
     /* justify-content: center; */
     flex-direction: column;
-    gap: 10px;
+    gap: 9px;
     background-color: rgba(22, 22, 32, 1);
     border-radius:12px;
     border-top-left-radius: 0;
@@ -44,15 +55,19 @@ html{
     font-size: 1.05em;
     flex: 1 0 0;
 }
+#register_box form div{
+    max-width: 173px;
+    max-height: 65px;
+}
 #register_box form h1{
-    margin-top: 40px;
-    margin-bottom: 25px;
+    margin-top: 25px;
+    margin-bottom: 20px;
     color: rgb(247, 132, 56);
 }
 
 #register_box form input{
     border-radius: 0px;
-    flex: 1 0 50%;
+    flex: 0 0 50%;
     border: none;
     color: white;
     background-color: rgba(10, 10, 10, 1);
@@ -65,7 +80,7 @@ html{
     height: 40px;
 }
 #register_box div:has(.colored_button){
-    margin-top: 16px;
+    margin-top: 7px;
 }
 #register_box div:has(a){
     margin-top: 10px;

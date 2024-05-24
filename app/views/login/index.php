@@ -13,36 +13,25 @@
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A accusamus mollitia, vero minima quam ratione obcaecati ipsam pariatur et placeat unde qui, veritatis corporis vitae sapiente. Eius facilis id delectus, odio aperiam ducimus ab cupiditate vero voluptate quam officiis nisi harum expedita. Amet consequatur laboriosam veritatis voluptas. Id porro quidem ipsum quo magnam odio voluptatum molestias dolore, nisi inventore saepe.</p>
                 </div>
             </div>
-            <form action="login/check_data" method="post">
+            <!-- <form action="login/insert_data" method="post"> -->
+            <form onsubmit="return false;" autocomplete="on">
                 <h1>Login</h1>
-                <div>
+                <div id="username_box">
                     <label>
                         Username
                         <br>
-                        <input type="text" Name="username" placeholder="Max 16 characters." maxlength="16" required>
+                        <input type="text" Name="username" placeholder="Max 12 characters." maxlength="12" required>
+                        <div class="error_text hidden_text">*</div>
                     </label>
                 </div>
-                <!-- <div>
-                    <label>
-                        Last Name
-                        <br>
-                        <input type="text" Name="l_name" placeholder="Doe" maxlength="16" required>
-                    </label>
-                </div> -->
-                <div>
+                <div id="password_box">
                     <label>
                         Password
                         <br>
-                        <input type="password" Name="password" required maxlength="18" placeholder="Max 18 characters.">
+                        <input type="password" Name="password" required maxlength="20" placeholder="Max 20 characters.">
+                        <div class="error_text hidden_text">*</div>
                     </label>
                 </div>
-                <!-- <div>
-                    <label>
-                        Confirm Password
-                        <br>
-                        <input type="password" Name="confirm_password" required maxlength="18" placeholder="Rewrite your password.">
-                    </label>
-                </div> -->
                 <div>
                     <input class="colored_button" type="submit" value="Confirm">
                 </div>
@@ -51,5 +40,38 @@
                 </div>
             </form>
         </div>
+        <script src="public/js/jquery-3.4.1.min.js"></script>
+        <script>
+            $("input[type='submit']").on('click',function (){
+                $(".error_text").each(function() {
+                    if(!$(this).hasClass("hidden_text")){
+                        $(this).addClass("hidden_text")
+                    }
+                })
+                let name = $("input[name='username']").val()
+                let pass = $("input[name='password']").val()
+                $.ajax({
+                    url: "login/check_data",
+                    type: "POST",
+                    data: {
+                        "username": name,
+                        "password": pass,
+                    },
+                    success: function (response){
+                        response = JSON.parse(response);
+                        switch(response.code){
+                            case 0:
+                                $("#password_box .error_text").text = "*Wrong username or password."
+                                $("#password_box .error_text").removeClass("hidden_text")
+                            case 1:
+                                window.location.assign("<?= URL ?>");
+                        };
+                    },
+                    error: function (response) {
+                        alert("Server-side error.");
+                    }
+                });
+            })
+        </script>
     </body>
 </html>

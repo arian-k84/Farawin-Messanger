@@ -8,9 +8,9 @@ class Index extends Controller
     {
         parent::__construct();
 
-        if ($this->checkLogin == FALSE) {
-            header("Location: /register" );
-        }
+        // if ($this->checkLogin == FALSE) {
+        //     header("Location: " . URL . "/login");
+        // }
     }
 
     function index()
