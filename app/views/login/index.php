@@ -16,11 +16,11 @@
             <!-- <form action="login/insert_data" method="post"> -->
             <form onsubmit="return false;" autocomplete="on">
                 <h1>Login</h1>
-                <div id="username_box">
+                <div id="pnumber_box">
                     <label>
-                        Username
+                        Phone Number
                         <br>
-                        <input type="text" Name="username" placeholder="Max 12 characters." maxlength="12" required>
+                        <input type="tel" Name="number" placeholder="Enter your phone number." required>
                         <div class="error_text hidden_text">*</div>
                     </label>
                 </div>
@@ -48,23 +48,26 @@
                         $(this).addClass("hidden_text")
                     }
                 })
-                let name = $("input[name='username']").val()
+                let num = $("input[name='number']").val()
                 let pass = $("input[name='password']").val()
                 $.ajax({
                     url: "login/check_data",
                     type: "POST",
                     data: {
-                        "username": name,
+                        "number": num,
                         "password": pass,
                     },
                     success: function (response){
                         response = JSON.parse(response);
+                        console.log(response)
                         switch(response.code){
                             case 0:
-                                $("#password_box .error_text").text = "*Wrong username or password."
+                                $("#password_box .error_text").text("*Wrong number or password.")
                                 $("#password_box .error_text").removeClass("hidden_text")
+                                break
                             case 1:
                                 window.location.assign("<?= URL ?>");
+                                break
                         };
                     },
                     error: function (response) {

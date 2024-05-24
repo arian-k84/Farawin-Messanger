@@ -10,14 +10,14 @@ class model_register extends Model
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST"){
             $response = array();
-            if($post["username"]){
-                if(preg_match("/^[\w]*$/", $post["username"])){
-                    $sql = "SELECT * FROM users WHERE username=?";
-                    $params = array($post['username']);
+            if($post["pnumber"]){
+                if(preg_match("/^[\w]*$/", $post["pnumber"])){
+                    $sql = "SELECT * FROM users WHERE pnumber=?";
+                    $params = array($post['pnumber']);
                     $result = $this->doSelect($sql, $params);
                     if (sizeof($result) == 0) {
-                        $sql = "INSERT INTO users (username,password,register_date) VALUES (?,?,?)";
-                        $params = array($post['username'], md5($post['password']), self::jalali_date("Y/m/d"));
+                        $sql = "INSERT INTO users (pnumber,password,register_date) VALUES (?,?,?)";
+                        $params = array($post['pnumber'], md5($post['password']), self::jalali_date("Y/m/d"));
                         $this->doQuery($sql, $params);
     
                         $response += array(
@@ -26,14 +26,14 @@ class model_register extends Model
                         );
                     } else {
                         $response += array(
-                            // username already exists
+                            // number already exists
                             "type" => "error",
                             "code" =>  2
                         );
                     }
                 }else{
                     $response += array(
-                        // unfiltered username
+                        // unfiltered number
                         "type" => "error",
                         "code" =>  1
                     );

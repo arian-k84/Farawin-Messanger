@@ -16,11 +16,11 @@
             <!-- <form action="register/insert_data" method="post"> -->
             <form onsubmit="return false;" autocomplete="on">
                 <h1>Register</h1>
-                <div id="username_box">
+                <div id="pnumber_box">
                     <label>
-                        Username
+                        Phone Number
                         <br>
-                        <input type="text" Name="username" placeholder="Max 12 characters." maxlength="12" required>
+                        <input type="tel" Name="number" placeholder="Enter your phone number." required>
                         <div class="error_text hidden_text">*</div>
                     </label>
                 </div>
@@ -63,26 +63,39 @@
                         $(this).addClass("hidden_text")
                     }
                 })
-                let user_check = false
+                let num_check = false
                 let pass_check = false
-                let name = $("input[name='username']").val()
+                let num = $("input[name='number']").val().trim()
                 let pass = $("input[name='password']").val()
                 let cpass = $("input[name='confirm_password']").val()
-                if(name){
-                    let err_msg = $("#username_box .error_text")
-                    if(name.match(/^[a-zA-Z0-9_]+$/)){
-                        if(name.match(/^[a-zA-Z]+/)){
-                            user_check = true
-                        }else{
-                            // $("#username_box .error_text").text("*Must not contain: " + name.replace(/[a-zA-Z0-9_]+$/, "").split('').join(',').replace(/\s+/, "whitespace").replace(/\s+/g, "") + ".")
-                            err_msg.text("*Must include a letter.")
-                            err_msg.removeClass("hidden_text")
-                        }
+                // if(num){
+                //     let err_msg = $("#pnumber_box .error_text")
+                //     if(num.match(/^[a-zA-Z0-9_]+$/)){
+                //         if(num.match(/^[a-zA-Z]+/)){
+                //             user_check = true
+                //         }else{
+                //             // $("#pnumber_box .error_text").text("*Must not contain: " + name.replace(/[a-zA-Z0-9_]+$/, "").split('').join(',').replace(/\s+/, "whitespace").replace(/\s+/g, "") + ".")
+                //             err_msg.text("*Must include a letter.")
+                //             err_msg.removeClass("hidden_text")
+                //         }
 
+                //     }else{
+                //         // $("#pnumber_box .error_text").text("*Must not contain: " + name.replace(/[a-zA-Z0-9_]+$/, "").split('').join(',').replace(/\s+/, "whitespace").replace(/\s+/g, "") + ".")
+                //         $("#pnumber_box .error_text").text("*Special Characters/Whitespace not allowed.")
+                //         $("#pnumber_box .error_text").removeClass("hidden_text")
+                //     }
+                // }
+                if(num){
+                    let err_msg = $("#pnumber_box .error_text")
+                    if(num[0] == "0"){
+                        num = num.slice(1, num.length)
+                        $("input[name='number']").val(num)
+                    }
+                    if(num.match(/^[6789][0-9]{9}$/)){
+                        num_check = true
                     }else{
-                        // $("#username_box .error_text").text("*Must not contain: " + name.replace(/[a-zA-Z0-9_]+$/, "").split('').join(',').replace(/\s+/, "whitespace").replace(/\s+/g, "") + ".")
-                        $("#username_box .error_text").text("*Special Characters/Whitespace not allowed.")
-                        $("#username_box .error_text").removeClass("hidden_text")
+                        $("#pnumber_box .error_text").text("*Please enter a valid phone number.")
+                        $("#pnumber_box .error_text").removeClass("hidden_text")
                     }
                 }
                 if(pass){
@@ -110,12 +123,12 @@
                     }
                 }
                 if(pass == cpass){
-                    if(user_check && pass_check){
+                    if(num_check && pass_check){
                         $.ajax({
                             url: "register/insert_data",
                             type: "POST",
                             data: {
-                                "username": name,
+                                "pnumber": num,
                                 "password": pass,
                             },
                             success: function (response){
@@ -126,12 +139,15 @@
                                         switch(response[res]){
                                             case 0:
                                                 window.location.assign("<?= URL ?>/login");
+                                                break
                                             case 1:
-                                                $("#username_box .error_text").text = "*Special Characters/Whitespace not allowed."
-                                                $("#username_box .error_text").removeClass("hidden_text")
+                                                $("#pnumber_box .error_text").text = "*Special Characters/Whitespace not allowed."
+                                                $("#pnumber_box .error_text").removeClass("hidden_text")
+                                                break
                                             case 2:
-                                                $("#username_box .error_text").text = "*Username already exists."
-                                                $("#username_box .error_text").removeClass("hidden_text")
+                                                $("#pnumber_box .error_text").text = "*Phone number already used."
+                                                $("#pnumber_box .error_text").removeClass("hidden_text")
+                                                break
                                         }
                                     }
                                 };

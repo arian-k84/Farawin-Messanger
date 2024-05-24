@@ -12,8 +12,8 @@ class model_login extends Model
     function check_data($post)
     {
         $response = array();
-        $sql = "SELECT * FROM users WHERE username=? and password=?";
-        $params = array($post['username'], md5($post['password']));
+        $sql = "SELECT * FROM users WHERE pnumber=? and password=?";
+        $params = array($post['number'], md5($post['password']));
         $result = $this->doSelect($sql, $params);
 
         if (sizeof($result) == 0) {
@@ -22,8 +22,8 @@ class model_login extends Model
                 "code" => 0,
             );
         } else {
-            $this->session_set("username", $result[0]['username']);
-            $this->checkLogin = $result[0]['username'];
+            $this->session_set("number", $result[0]['pnumber']);
+            $this->checkLogin = $result[0]['pnumber'];
             $response += array(
                 "type" => "success",
                 "code" => 1,
