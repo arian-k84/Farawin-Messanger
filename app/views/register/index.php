@@ -138,14 +138,14 @@
                                     if(res == "code"){
                                         switch(response[res]){
                                             case 0:
-                                                window.location.assign("<?= URL ?>/login");
+                                                window.location.assign("<?= URL ?>");
                                                 break
                                             case 1:
-                                                $("#pnumber_box .error_text").text = "*Special Characters/Whitespace not allowed."
+                                                $("#pnumber_box .error_text").text("*Special Characters/Whitespace not allowed.")
                                                 $("#pnumber_box .error_text").removeClass("hidden_text")
                                                 break
                                             case 2:
-                                                $("#pnumber_box .error_text").text = "*Phone number already used."
+                                                $("#pnumber_box .error_text").text("*Phone number already registered.")
                                                 $("#pnumber_box .error_text").removeClass("hidden_text")
                                                 break
                                         }

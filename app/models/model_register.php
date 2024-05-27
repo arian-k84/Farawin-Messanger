@@ -2,6 +2,7 @@
 
 class model_register extends Model
 {
+    public $checkLogin = '';
     function __construct()
     {
         parent::__construct();
@@ -19,7 +20,8 @@ class model_register extends Model
                         $sql = "INSERT INTO users (pnumber,password,register_date) VALUES (?,?,?)";
                         $params = array($post['pnumber'], md5($post['password']), self::jalali_date("Y/m/d"));
                         $this->doQuery($sql, $params);
-    
+                        $this->session_set("number", $post['pnumber']);
+                        $this->checkLogin = $post['pnumber'];
                         $response += array(
                             "type" => "success",
                             "code" => 0

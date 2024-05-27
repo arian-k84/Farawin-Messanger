@@ -7,7 +7,10 @@ class Index extends Controller
     function __construct()
     {
         parent::__construct();
-
+        $this->checkLogin = Model::session_get("number");
+        if ($this->checkLogin == FALSE) {
+            header("Location: " . URL . "/login");
+        }
         // if ($this->checkLogin == FALSE) {
         //     header("Location: " . URL . "/login");
         // }
