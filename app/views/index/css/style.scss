@@ -1,0 +1,268 @@
+$primary-color: rgb(247, 201, 77);
+
+@mixin flex($jc: flex-start, $ai: flex-start, $fw: nowrap) {
+    display: flex;
+    justify-content: $jc;
+    align-items: $ai;
+    flex-wrap: $fw;
+}
+
+html, body{
+    margin: 0;
+    height: 100%;
+    background-color: rgb(22, 22, 32);
+}
+
+.hidden{
+    // display: none;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.error-text{
+    color: rgb(230, 15, 15);
+    font-size: 0.7rem;
+    max-width: 100%;
+    min-height: 13%;
+    max-height:25%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.main-wrapper{
+    @include flex($jc: center, $ai: center);
+    width: 100%;
+    height: 100%;
+    >.main-container{
+        @include flex($jc: space-evenly, $ai: center);
+        gap: 11px;
+        width: 94%;
+        height: 90%;
+        background-color: rgb(225, 225, 225);
+        border-radius: 10px;
+        >.contact-wrapper{
+            position: relative;
+            flex-grow: 1;
+            // @include flex($fw: wrap);
+            height: 95%;
+            margin-right: 12px;
+            max-width: 26vw;
+            overflow: hidden;
+            border-radius: 12px;
+            // gap: 3px;
+
+            >.contact-control{
+                @include flex($ai: center);
+                /* justify-content: center; */
+                flex: 1 0 100%;
+                width: 100%;
+                height: 8%;
+                background-color: rgb(29, 29, 29);
+                border-top-right-radius: 12px;
+                border-top-left-radius: 12px;
+                text-align: center;
+                vertical-align:middle;
+                line-height: normal;
+                margin-bottom: 5px;
+                position: relative;
+                z-index: 7;
+
+                >.add-contact-modal-btn{
+                    flex: 0;
+                    color: white;
+                    min-width: 30px;
+                    min-height: 30px;
+                    max-width: 30px;
+                    max-height: 30px;
+                    font-size: 2rem;
+                    aspect-ratio: 1/1;
+                    // background-color: rgb(200, 200, 200);
+                    background-color: rgba($color: #000000, $alpha: 0);
+                    // border-radius: 50%;
+                    border: transparent;
+                    padding: 0;
+                    margin-left: 5px;
+                    transition: color 0.25s;
+                    z-index: 6;
+                    &:hover{
+                        color: $primary-color;
+                    }
+                }
+
+                >.add-contact-modal{
+                    @include flex($jc: center, $ai: center);
+                    // align-content: flex-start;
+                    width:100%;
+                    height: 1150%;
+                    position: absolute;
+                    background-color: rgb(29, 29, 29);
+                    border-bottom-left-radius: 12px;
+                    border-bottom-right-radius: 12px;
+                    // border-top: 5px solid rgb(46, 46, 46);
+                    top: -1200%;
+                    transition: 0.6s;
+                    // z-index: 2;
+                    gap: 9px;
+                    z-index: 3;
+
+                    >div{
+                        @include flex($jc: center, $ai: flex-start, $fw: wrap);
+                        // justify-items: center;
+                        align-content: center;
+                        gap: 1px;
+                        width: 100%;
+                        height: 88.5%;
+                        margin-bottom: 13%;
+                        border-top: 5px solid rgb(46, 46, 46);
+                        border-bottom: 5px solid rgb(46, 46, 46);
+                        transition: 0.3s;
+                        >.modal-info{
+                            flex: 1 0 100%;
+                            max-width: 50%;
+                            height: 8%;
+                            color: white;
+                            font-size: 1.8rem;
+                            margin-top: 2px;
+                            margin-bottom: 44px;
+                            text-align: center;
+                            font-weight: bold;
+                            // line-height: -50%;
+                            border-bottom: 2px solid $primary-color;
+                        }
+                        >.add-contact-number, .add-contact-name{
+                            flex: 1 0 100%;
+                            height: 13%;
+                            input{
+                                max-width: 75%;
+                                height: 60%;
+                                color: white;
+                                // color: rgb(85, 85, 85);
+                                background-color: rgb(46, 46, 46);
+                                border: none;
+                                font-size: 1rem;
+
+                                &:focus{
+                                    outline: none;
+                                }
+                            }
+                        }
+                        >.create-contact-btn{
+                            flex: 1 0 100%;
+                            max-width: 35%;
+                            height: 8%;
+                            color: white;
+                            background-color: $primary-color;
+                            border: none;
+                            margin-top: 28px;
+                            transition: 0.5s;
+                            font-size: 1rem;
+                            font-weight: bold;
+
+                            &:hover{
+                                background-color: rgb(111, 187, 241);
+                            }
+                        }
+                    }
+                }
+
+            }
+            >.contacts-container{
+                @include flex($jc: center, $fw: wrap);
+                align-content: flex-start;
+                flex: 1;
+                /* min-width: 20%; */
+                width: 100%;
+                height: calc(100% - 8% - 5px - 5px);
+                background-color: rgb(211, 211, 211);
+                /* border: 3px solid rgb(200, 200, 200); */
+                border-bottom-left-radius: 12px;
+                border-bottom-right-radius: 12px;
+                overflow-y: auto;
+                border-top: 5px solid rgb(29, 29, 29);
+                
+                >.contact-card:nth-child(odd){
+                    background-color: rgb(253, 253, 253);
+                }
+                >.contact-card:nth-child(even){
+                    background-color: rgb(241, 241, 241);
+                }
+                .contact-card{
+                    flex: 1 0 100%;
+                    @include flex($ai: center);
+                    /* flex-wrap: wrap; */
+                    /* flex-direction: column; */
+                    // max-width: calc(98% - 7px);
+                    max-width: 100%;
+                    height: 10vh;
+                    max-height: 20%;
+                    // margin: 2px;
+                    // border-radius: 8px;
+                    /* border: 3px solid rgb(200, 200, 200); */
+                    /* overflow: hidden; */
+                    // border-bottom: 2px solid rgb(180, 180, 180);
+                    transition: 0.25s;
+                    gap: 13px;
+                    &:hover{
+                        filter: brightness(104%);
+                    }
+
+                    >img{
+                        /* flex: 1 0; */
+                        display: inline;
+                        height: 80%;
+                        border-radius: 50%;
+                        aspect-ratio: 1/1;
+                        /* border: 3px solid rgb(200, 200, 200); */
+                        margin-left: 8px;
+                        background-repeat: no-repeat;
+                        background-size: cover;
+                        // margin-right: 17px;
+                    }
+                    .message-wrapper {
+                        flex: 0 0;
+                        // gap: 4px;
+                        margin: 0;
+                        @include flex($fw: wrap);
+                        /* flex-direction: column; */
+                        /* height: 200px; */
+                        max-height: 100%;
+
+                        .contact-name{
+                            flex: 1 0 95%;
+                            display: inline;
+                            width: calc(100% - 5px);
+                            max-width: 100%;
+                            height: 40%;
+                            /* border: 3px solid rgb(200, 200, 200); */
+                            margin: 0;
+                            font-size: 1.3rem;
+                            // margin-left: 20px;
+                        }
+                        .contact-last-message{
+                            flex: 1 0 95%;
+                            display: inline;
+                            width: calc(100% - 5px);
+                            max-width: 100%;
+                            height: 40%;
+                            /* border: 3px solid rgb(200, 200, 200); */
+                            margin: 0;
+                            color: rgba(0,0,0,0.5);
+                            // margin-left: 20px;
+                        }
+                    }
+                }
+            }
+        }
+        >.messenger-container {
+            flex-grow: 3;
+            /* min-width: 50%; */
+            min-height: 95%;
+            margin-left: 12px;
+            background-color: rgb(225, 225, 225);
+            border: 3px solid rgb(200, 200, 200);
+            border-radius: 12px;
+        }
+    }
+}

@@ -20,7 +20,7 @@
                     <label>
                         Phone Number
                         <br>
-                        <input type="tel" Name="number" placeholder="Enter your phone number." required>
+                        <input type="tel" Name="number" placeholder="Your phone number" required>
                         <div class="error_text hidden_text">*</div>
                     </label>
                 </div>
@@ -28,7 +28,7 @@
                     <label>
                         Password
                         <br>
-                        <input type="password" Name="password" required maxlength="20" placeholder="Max 20 characters.">
+                        <input type="password" Name="password" required maxlength="20" placeholder="Password">
                         <div class="error_text hidden_text">*</div>
                     </label>
                 </div>
@@ -50,6 +50,10 @@
                 })
                 let num = $("input[name='number']").val()
                 let pass = $("input[name='password']").val()
+                if(num[0] == "0"){
+                        num = num.slice(1, num.length)
+                        $("input[name='number']").val(num)
+                    }
                 $.ajax({
                     url: "login/check_data",
                     type: "POST",
@@ -59,7 +63,6 @@
                     },
                     success: function (response){
                         response = JSON.parse(response);
-                        console.log(response)
                         switch(response.code){
                             case 0:
                                 $("#password_box .error_text").text("*Wrong number or password.")

@@ -25,4 +25,9 @@ class Index extends Controller
         $this->view('index/index');
     }
 
+    function add_contact()
+    {
+        $this->model->add_contact($_POST);
+    }
+
 }

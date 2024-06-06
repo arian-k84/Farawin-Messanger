@@ -1,18 +1,25 @@
+:root {
+  --screen-width: 100vw;
+  --screen-height: 100vh;
+}
+
 html {
   background-image: url(background.webp);
   background-repeat: no-repeat;
   background-size: cover;
   /* background-color: rgb(255, 122, 33); */
   box-shadow: inset 0px 0px 50px 0px rgb(0, 0, 0);
+  /* font-size: calc(calc(var(--screen-height) / var(--screen-width))*16px); */
+  font-size: clamp(16px, 2.8vmin, 10vmax);
 }
 
 .colored_button {
-  background-color: rgb(247, 201, 77) !important;
+  background-color: rgb(247, 132, 56) !important;
   cursor: pointer;
   transition: 0.25s;
 }
-.colored_button:hover {
-  background-color: rgb(111, 187, 241) !important;
+.colored_button .colored_button:hover {
+  background-color: rgb(255, 165, 106) !important;
 }
 
 .error_text {
@@ -27,10 +34,10 @@ html {
   color: rgba(0, 0, 0, 0);
 }
 
-#register_box {
+#login_box {
   display: flex;
   width: 70%;
-  height: 75%;
+  height: 70%;
   /* box-shadow: 0px 5px 20px 2px rgba(0,0,0,0.5); */
   position: absolute;
   top: 50%;
@@ -40,11 +47,13 @@ html {
   box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.5);
   border-radius: 12px;
 }
-#register_box > * {
+
+#login_box > * {
   flex: 1 0 50%;
   /* max-width: 100%; */
 }
-#register_box form {
+
+#login_box form {
   display: flex;
   align-items: center;
   /* justify-content: center; */
@@ -59,16 +68,19 @@ html {
   /* font-size: 1.05em; */
   flex: 1 0 0;
 }
-#register_box form div {
+
+#login_box form div {
   max-width: 173px;
   max-height: 65px;
 }
-#register_box form h1 {
-  margin-top: clamp(16px, 4.5vh, 100px);
-  margin-bottom: clamp(16px, 4.5vh, 100px);
-  color: rgb(247, 201, 77);
+
+#login_box form h1 {
+  margin-top: clamp(16px, 5.2vh, 8vh);
+  margin-bottom: clamp(16px, 5.2vh, 8vh);
+  color: rgb(247, 132, 56);
 }
-#register_box form input {
+
+#login_box form input {
   border-radius: 0px;
   flex: 0 0 50%;
   border: none;
@@ -77,25 +89,30 @@ html {
   min-width: 120px;
   min-height: 30px;
 }
-#register_box .colored_button {
+
+#login_box .colored_button {
   /* background-color: rgb(247, 132, 56); */
   width: 18%;
   height: 40px;
 }
-#register_box div:has(.colored_button) {
-  margin-top: 4vh;
+
+#login_box div:has(.colored_button) {
+  margin-top: 81px;
 }
-#register_box div:has(a) {
-  margin-top: 5px;
-  max-width: 90%;
+
+#login_box div:has(a) {
+  margin-top: 10px;
+  max-width: 200px;
 }
-#register_box div a {
+
+#login_box div a {
   color: rgb(74, 170, 235);
   text-decoration: none;
   transition: 0.25s;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
 }
-#register_box div a:hover {
+
+#login_box div a:hover {
   color: rgb(141, 210, 255);
 }
 
@@ -118,46 +135,41 @@ html {
   border-radius: 12px;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  flex: 1.5 0 0;
-  font-size: clamp(16px, 3.3vmin, 6vmax);
+  flex: 2 0 0;
+  font-size: clamp(16px, 10%, 50%);
 }
+
 #information_box > div {
-  width: 80%;
+  width: 70%;
   height: 70%;
   border-radius: 12px;
 }
+
 #information_box > div > * {
   margin-left: 12px;
   margin-right: 12px;
   color: rgb(250, 250, 250);
   /* font-size: 1.2em; */
 }
+
 #information_box > div > h2 {
   /* font-size: 2.5em; */
   margin-top: 0px;
   margin-bottom: 30px;
 }
+
 #information_box > * {
   text-align: center;
 }
 
-@media all and (min-width: 768px) {
-  html {
-    font-size: clamp(16px, 2.8vmin, 10vmax);
-  }
-}
-@media all and (orientation: portrait) {
+@media all and (max-width: 768px) {
   #information_box {
     display: none;
   }
-  #register_box form {
+  #login_box form {
     border-top-left-radius: 12px;
     border-bottom-left-radius: 12px;
     /* font-size: clamp(16px, 10vmin, 32vw); */
     gap: 20px;
-  }
-  html {
-    font-size: clamp(16px, 2.4vh, 10vmax);
-    zoom: 1.1;
   }
 }/*# sourceMappingURL=style.css.map */

@@ -20,7 +20,7 @@
                     <label>
                         Phone Number
                         <br>
-                        <input type="tel" Name="number" placeholder="Enter your phone number." required>
+                        <input type="tel" Name="number" placeholder="Your phone number" required>
                         <div class="error_text hidden_text">*</div>
                     </label>
                 </div>
@@ -35,7 +35,7 @@
                     <label>
                         Password
                         <br>
-                        <input type="password" Name="password" required maxlength="20" placeholder="Max 20 characters.">
+                        <input type="password" Name="password" required maxlength="20" placeholder="Password">
                         <div class="error_text hidden_text">*</div>
                     </label>
                 </div>
@@ -43,7 +43,7 @@
                     <label>
                         Confirm Password
                         <br>
-                        <input type="password" Name="confirm_password" required maxlength="20" placeholder="Max 20 characters.">
+                        <input type="password" Name="confirm_password" required maxlength="20" placeholder="Repeat your Password">
                         <div class="error_text hidden_text">*</div>
                     </label>
                 </div>
