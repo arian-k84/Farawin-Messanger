@@ -67,27 +67,56 @@ html, body {
   margin-bottom: 5px;
   position: relative;
   z-index: 7;
+  gap: 2px;
 }
-.main-wrapper > .main-container > .contact-wrapper > .contact-control > .add-contact-modal-btn {
+.main-wrapper > .main-container > .contact-wrapper > .contact-control > .add-contact-btn {
   flex: 0;
   color: white;
-  min-width: 30px;
-  min-height: 30px;
-  max-width: 30px;
-  max-height: 30px;
+  min-width: 25px;
+  min-height: 25px;
+  max-width: 25px;
+  max-height: 25px;
   font-size: 2rem;
   aspect-ratio: 1/1;
   background-color: rgba(0, 0, 0, 0);
   border: transparent;
   padding: 0;
-  margin-left: 5px;
+  margin-left: 8px;
   transition: color 0.25s;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 24px;
   z-index: 6;
 }
-.main-wrapper > .main-container > .contact-wrapper > .contact-control > .add-contact-modal-btn:hover {
+.main-wrapper > .main-container > .contact-wrapper > .contact-control > .add-contact-btn:hover {
   color: rgb(247, 201, 77);
 }
-.main-wrapper > .main-container > .contact-wrapper > .contact-control > .add-contact-modal {
+.main-wrapper > .main-container > .contact-wrapper > .contact-control > .edit-contact-btn {
+  flex: 0;
+  color: white;
+  min-width: 25px;
+  min-height: 25px;
+  max-width: 25px;
+  max-height: 25px;
+  font-size: 1.2rem;
+  aspect-ratio: 1/1;
+  background-color: rgba(0, 0, 0, 0);
+  border: transparent;
+  padding: 0;
+  margin-left: 2px;
+  z-index: 6;
+}
+.main-wrapper > .main-container > .contact-wrapper > .contact-control > .edit-contact-btn svg {
+  scale: 60%;
+  top: 50%;
+  left: 50%;
+  fill: white;
+  transition: fill 0.25s;
+}
+.main-wrapper > .main-container > .contact-wrapper > .contact-control > .edit-contact-btn svg:hover {
+  fill: rgb(247, 201, 77);
+}
+.main-wrapper > .main-container > .contact-wrapper > .contact-control > .contact-actions-modal {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -99,11 +128,11 @@ html, body {
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
   top: -1200%;
-  transition: 0.6s;
+  transition: 0.4s;
   gap: 9px;
   z-index: 3;
 }
-.main-wrapper > .main-container > .contact-wrapper > .contact-control > .add-contact-modal > div {
+.main-wrapper > .main-container > .contact-wrapper > .contact-control > .contact-actions-modal > div {
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -117,23 +146,23 @@ html, body {
   border-bottom: 5px solid rgb(46, 46, 46);
   transition: 0.3s;
 }
-.main-wrapper > .main-container > .contact-wrapper > .contact-control > .add-contact-modal > div > .modal-info {
+.main-wrapper > .main-container > .contact-wrapper > .contact-control > .contact-actions-modal > div > .modal-info {
   flex: 1 0 100%;
-  max-width: 50%;
+  max-width: 57%;
   height: 8%;
   color: white;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   margin-top: 2px;
   margin-bottom: 44px;
   text-align: center;
   font-weight: bold;
   border-bottom: 2px solid rgb(247, 201, 77);
 }
-.main-wrapper > .main-container > .contact-wrapper > .contact-control > .add-contact-modal > div > .add-contact-number, .main-wrapper > .main-container > .contact-wrapper > .contact-control > .add-contact-modal > div .add-contact-name {
+.main-wrapper > .main-container > .contact-wrapper > .contact-control > .contact-actions-modal > div > .add-contact-number, .main-wrapper > .main-container > .contact-wrapper > .contact-control > .contact-actions-modal > div .add-contact-name {
   flex: 1 0 100%;
   height: 13%;
 }
-.main-wrapper > .main-container > .contact-wrapper > .contact-control > .add-contact-modal > div > .add-contact-number input, .main-wrapper > .main-container > .contact-wrapper > .contact-control > .add-contact-modal > div .add-contact-name input {
+.main-wrapper > .main-container > .contact-wrapper > .contact-control > .contact-actions-modal > div > .add-contact-number input, .main-wrapper > .main-container > .contact-wrapper > .contact-control > .contact-actions-modal > div .add-contact-name input {
   max-width: 75%;
   height: 60%;
   color: white;
@@ -141,10 +170,10 @@ html, body {
   border: none;
   font-size: 1rem;
 }
-.main-wrapper > .main-container > .contact-wrapper > .contact-control > .add-contact-modal > div > .add-contact-number input:focus, .main-wrapper > .main-container > .contact-wrapper > .contact-control > .add-contact-modal > div .add-contact-name input:focus {
+.main-wrapper > .main-container > .contact-wrapper > .contact-control > .contact-actions-modal > div > .add-contact-number input:focus, .main-wrapper > .main-container > .contact-wrapper > .contact-control > .contact-actions-modal > div .add-contact-name input:focus {
   outline: none;
 }
-.main-wrapper > .main-container > .contact-wrapper > .contact-control > .add-contact-modal > div > .create-contact-btn {
+.main-wrapper > .main-container > .contact-wrapper > .contact-control > .contact-actions-modal > div > .create-contact-btn {
   flex: 1 0 100%;
   max-width: 35%;
   height: 8%;
@@ -156,7 +185,7 @@ html, body {
   font-size: 1rem;
   font-weight: bold;
 }
-.main-wrapper > .main-container > .contact-wrapper > .contact-control > .add-contact-modal > div > .create-contact-btn:hover {
+.main-wrapper > .main-container > .contact-wrapper > .contact-control > .contact-actions-modal > div > .create-contact-btn:hover {
   background-color: rgb(111, 187, 241);
 }
 .main-wrapper > .main-container > .contact-wrapper > .contacts-container {

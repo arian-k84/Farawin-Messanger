@@ -23,6 +23,7 @@ class model_login extends Model
             );
         } else {
             $this->session_set("number", $result[0]['pnumber']);
+            $this->session_set("id", $this->doSelect("SELECT id FROM users WHERE pnumber=" . $result[0]['pnumber'])[0]['id']);
             $this->checkLogin = $result[0]['pnumber'];
             $response += array(
                 "type" => "success",

@@ -21,6 +21,7 @@ class model_register extends Model
                         $params = array($post['pnumber'], md5($post['password']), self::jalali_date("Y/m/d"));
                         $this->doQuery($sql, $params);
                         $this->session_set("number", $post['pnumber']);
+                        $this->session_set("id", $this->doSelect("SELECT id FROM users WHERE pnumber=" . $post['pnumber'])[0]['id']);
                         $this->checkLogin = $post['pnumber'];
                         $response += array(
                             "type" => "success",

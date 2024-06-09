@@ -23,7 +23,7 @@ class model_index extends Model
                 );
             }else{
                 $sql = "INSERT INTO contacts (name, user_id, contact_id) VALUES (?, ?, ?)";
-                $params = array($post['name'], $this->doSelect("SELECT id FROM users WHERE pnumber=" . $this->session_get("number"))[0]['id'], $this->doSelect("SELECT id FROM users WHERE pnumber=" . $result[0]['pnumber'])[0]['id']);
+                $params = array($post['name'], $this->session_get("id"), $this->doSelect("SELECT id FROM users WHERE pnumber=" . $result[0]['pnumber'])[0]['id']);
                 $this->doQuery($sql, $params);
                 $response += array(
                     "type" => "success",
@@ -37,6 +37,14 @@ class model_index extends Model
             );
         }
         echo json_encode($response);
+    }
+
+    function get_contacts()
+    {
+        // $response = array();
+        $result = $this->doSelect("SELECT * FROM contacts WHERE user_id=" . ($this->doSelect("SELECT id FROM users WHERE pnumber=" . $this->session_get("number"))[0]['id']));
+        
+        echo json_encode($result);
     }
 }
 
