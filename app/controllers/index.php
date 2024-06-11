@@ -35,4 +35,8 @@ class Index extends Controller
         $this->model->get_contacts();
     }
 
+    function edit_contact()
+    {
+        $this->model->edit_contact($_POST);
+    }
 }

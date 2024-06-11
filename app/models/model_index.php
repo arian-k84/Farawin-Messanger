@@ -19,11 +19,10 @@ class model_index extends Model
                 $response += array(
                     "type" => "error",
                     "code" => 2,
-                    "err_info" => $result[0]['pnumber']
                 );
             }else{
-                $sql = "INSERT INTO contacts (name, user_id, contact_id) VALUES (?, ?, ?)";
-                $params = array($post['name'], $this->session_get("id"), $this->doSelect("SELECT id FROM users WHERE pnumber=" . $result[0]['pnumber'])[0]['id']);
+                $sql = "INSERT INTO contacts (name, user_id, contact_id, contact_pnumber) VALUES (?, ?, ?, ?)";
+                $params = array($post['name'], $this->session_get("id"), $this->doSelect("SELECT id FROM users WHERE pnumber=" . $result[0]['pnumber'])[0]['id'], $post['number']);
                 $this->doQuery($sql, $params);
                 $response += array(
                     "type" => "success",
@@ -42,9 +41,20 @@ class model_index extends Model
     function get_contacts()
     {
         // $response = array();
-        $result = $this->doSelect("SELECT * FROM contacts WHERE user_id=" . ($this->doSelect("SELECT id FROM users WHERE pnumber=" . $this->session_get("number"))[0]['id']));
+        $result = $this->doSelect("SELECT * FROM contacts WHERE user_id=" . $this->session_get("id"));
         
         echo json_encode($result);
+    }
+
+    function edit_contact($post)
+    {
+        $sql = ("UPDATE contacts SET name=(?) WHERE user_id=(?) AND contact_id=(?)");
+        $params = array($post['name'],$this->session_get("id"),$this->doSelect("SELECT id FROM users WHERE pnumber=" . $post["contact-number"])[0]['id']);
+        $this->doQuery($sql, $params);
+        echo json_encode(array(
+            "type" => "success",
+            "code" => 0,
+        ));
     }
 }
 

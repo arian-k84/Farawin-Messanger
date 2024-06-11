@@ -1,4 +1,6 @@
 $primary-color: rgb(247, 201, 77);
+$secondary-color: rgb(111, 187, 241);
+$background-color: rgb(29, 29, 29);
 
 @mixin flex($jc: flex-start, $ai: flex-start, $fw: nowrap) {
     display: flex;
@@ -10,11 +12,15 @@ $primary-color: rgb(247, 201, 77);
 html, body{
     margin: 0;
     height: 100%;
-    background-color: rgb(22, 22, 32);
+    background-color: rgb(32, 32, 32);
+    font-size: clamp(10px, 1.3vw, 28px);
+    background-image: url(main-background-sprinkle.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .hidden{
-    // display: none;
+    display: none;
     visibility: hidden;
     opacity: 0;
 }
@@ -35,6 +41,150 @@ html, body{
     @include flex($jc: center, $ai: center);
     width: 100%;
     height: 100%;
+
+    >.profile-popup{
+        position: absolute;
+        @include flex($jc: center, $ai: center);
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(29,29,29,0.7);
+        z-index: 10;
+        color: $background-color;
+        transition: all 0.3s;
+        >#profile-container{
+            @include flex($jc: center, $ai: center);
+            // display: grid;
+            // grid-auto-flow: row;
+            flex-direction: column;
+            width: clamp(40vw, 80vh, 90vw);
+            height: 90%;
+            background-color: rgb(253, 253, 253);
+            border-radius: 12px;
+            overflow: hidden;
+            >#top-section{
+                position: relative;
+                @include flex($jc:center, $ai:center, $fw:center);
+                flex: 1 0;
+                min-width: 100%;
+                // min-height: 25%;
+                background-color: $background-color;
+                background-image: url(profile-background-lines.svg);
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position-y: center;
+                align-self: flex-start;
+                >#close-btn{
+                    position: absolute;
+                    rotate: (45deg);
+                    color: white;
+                    min-width: 5%;
+                    // min-height: 25px;
+                    max-width: 5%;
+                    max-height: 10%;
+                    font-size: 2.5rem;
+                    aspect-ratio: 1/1;
+                    // background-color: rgb(200, 200, 200);
+                    background-color: rgba(0,0,0,0);
+                    // border-radius: 50%;
+                    border: transparent;
+                    padding: 0;
+                    // margin-left: 8px;
+                    transition: color 0.25s, transform 0.25s;
+                    text-align: center;
+                    vertical-align: middle;
+                    line-height: 24px;
+                    top: 10%;
+                    left: 2%;
+                    &:hover{
+                        color: $primary-color;
+                    }
+                }
+                >span{
+                    position: absolute;
+                    max-height: 110%;
+                    max-width: 110%;
+                    border-radius: 50%;
+                    margin: 26px 0;
+                    top: 0;
+                    aspect-ratio: 1/1;
+                    overflow: hidden;
+                    >span{
+                        display: flex;
+                        position: relative;
+                        width: 100%;
+                        height: 100%;
+                        text-align: center;
+                        vertical-align: middle;
+                        >img{
+                            max-width: 100%;
+                            max-height: 100%;
+                            aspect-ratio: 1/1;
+                            // left: 0;
+                        }
+                    }
+                }
+            }
+            >#info-section{
+                @include flex($jc: space-evenly, $ai: center);
+                flex-direction: column;
+                flex: 2.7 0;
+                width: 100%;
+                height: 100%;
+                >#name{
+                    flex: 1 0;
+                    max-height: 15%;
+                    font-size: 3rem;
+                    font-weight: bolder;
+                    margin-top: 6%;
+                    margin-bottom: 7%;
+                    border-bottom: 2px solid $primary-color;
+                }
+                >div{
+                    flex: 3 0;
+                    >ul{
+                        @include flex($jc: center);
+                        flex-direction: column;
+                        gap: 15px;
+                        list-style: none;
+                        margin: 0;
+                        padding: 0;
+                        >div{
+                            width: 100%;
+                            p{
+                                position: relative;
+                                color: rgba(0, 0, 0, 0.5);
+                                font-size: 1.4rem;
+                                margin: 0;
+                                a{
+                                    position: absolute;
+                                    // text-decoration: none;
+                                    top: 50%;
+                                    right: 0;
+                                    border: 0;
+                                    // margin: 0;
+                                    color: $primary-color;
+                                    font-size: 0.9rem;
+                                    transform: translateY(-50%);
+                                    transition: 0.25s;
+                                    &:hover{
+                                        color: $secondary-color;
+                                    }
+                                }
+                                >#name{
+                                    border: 0;
+                                    background-color: rgba(0,0,0,0);
+                                }
+                            }
+                            li{
+                                font-size: 1.2rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     >.main-container{
         @include flex($jc: space-evenly, $ai: center);
         gap: 11px;
@@ -59,7 +209,7 @@ html, body{
                 flex: 1 0 100%;
                 width: 100%;
                 height: 8%;
-                background-color: rgb(29, 29, 29);
+                background-color: $background-color;
                 border-top-right-radius: 12px;
                 border-top-left-radius: 12px;
                 text-align: center;
@@ -69,23 +219,24 @@ html, body{
                 position: relative;
                 z-index: 7;
                 gap: 2px;
+                transform-style: preserve-3d;
 
                 >.add-contact-btn{
                     flex: 0;
                     color: white;
-                    min-width: 25px;
-                    min-height: 25px;
-                    max-width: 25px;
-                    max-height: 25px;
+                    min-width: 10%;
+                    // min-height: 25px;
+                    max-width: 10%;
+                    max-height: 90%;
                     font-size: 2rem;
                     aspect-ratio: 1/1;
                     // background-color: rgb(200, 200, 200);
-                    background-color: rgba($color: #000000, $alpha: 0);
+                    background-color: rgba(0,0,0,0);
                     // border-radius: 50%;
                     border: transparent;
                     padding: 0;
                     margin-left: 8px;
-                    transition: color 0.25s;
+                    transition: color 0.25s, transform 0.25s;
                     text-align: center;
                     vertical-align: middle;
                     line-height: 24px;
@@ -98,14 +249,13 @@ html, body{
                 >.edit-contact-btn{
                     flex: 0;
                     color: white;
-                    min-width: 25px;
-                    min-height: 25px;
-                    max-width: 25px;
-                    max-height: 25px;
-                    font-size: 1.2rem;
+                    min-width: 8%;
+                    // min-height: 25px;
+                    max-width: 10%;
+                    // max-height: 80%;
                     aspect-ratio: 1/1;
                     // background-color: rgb(200, 200, 200);
-                    background-color: rgba($color: #000000, $alpha: 0);
+                    background-color: rgba(0,0,0,0);
                     // border-radius: 50%;
                     border: transparent;
                     padding: 0;
@@ -123,83 +273,6 @@ html, body{
                         }
                     }
                 }
-
-                >.contact-actions-modal{
-                    @include flex($jc: center, $ai: center);
-                    // align-content: flex-start;
-                    width:100%;
-                    height: 1150%;
-                    position: absolute;
-                    background-color: rgb(29, 29, 29);
-                    border-bottom-left-radius: 12px;
-                    border-bottom-right-radius: 12px;
-                    // border-top: 5px solid rgb(46, 46, 46);
-                    top: -1200%;
-                    transition: 0.4s;
-                    // z-index: 2;
-                    gap: 9px;
-                    z-index: 3;
-
-                    >div{
-                        @include flex($jc: center, $ai: flex-start, $fw: wrap);
-                        // justify-items: center;
-                        align-content: center;
-                        gap: 1px;
-                        width: 100%;
-                        height: 88.5%;
-                        margin-bottom: 13%;
-                        border-top: 5px solid rgb(46, 46, 46);
-                        border-bottom: 5px solid rgb(46, 46, 46);
-                        transition: 0.3s;
-                        >.modal-info{
-                            flex: 1 0 100%;
-                            max-width: 57%;
-                            height: 8%;
-                            color: white;
-                            font-size: 1.5rem;
-                            margin-top: 2px;
-                            margin-bottom: 44px;
-                            text-align: center;
-                            font-weight: bold;
-                            // line-height: -50%;
-                            border-bottom: 2px solid $primary-color;
-                        }
-                        >.add-contact-number, .add-contact-name{
-                            flex: 1 0 100%;
-                            height: 13%;
-                            input{
-                                max-width: 75%;
-                                height: 60%;
-                                color: white;
-                                // color: rgb(85, 85, 85);
-                                background-color: rgb(46, 46, 46);
-                                border: none;
-                                font-size: 1rem;
-
-                                &:focus{
-                                    outline: none;
-                                }
-                            }
-                        }
-                        >.create-contact-btn{
-                            flex: 1 0 100%;
-                            max-width: 35%;
-                            height: 8%;
-                            color: white;
-                            background-color: $primary-color;
-                            border: none;
-                            margin-top: 28px;
-                            transition: 0.5s;
-                            font-size: 1rem;
-                            font-weight: bold;
-
-                            &:hover{
-                                background-color: rgb(111, 187, 241);
-                            }
-                        }
-                    }
-                }
-
             }
             >.contacts-container{
                 @include flex($jc: center, $fw: wrap);
@@ -228,7 +301,7 @@ html, body{
                     /* flex-direction: column; */
                     // max-width: calc(98% - 7px);
                     max-width: 100%;
-                    height: 10vh;
+                    height: 12vh;
                     max-height: 20%;
                     // margin: 2px;
                     // border-radius: 8px;
@@ -238,7 +311,7 @@ html, body{
                     transition: 0.25s;
                     gap: 13px;
                     &:hover{
-                        filter: brightness(104%);
+                        filter: brightness(103%);
                     }
 
                     >img{
@@ -271,6 +344,7 @@ html, body{
                             /* border: 3px solid rgb(200, 200, 200); */
                             margin: 0;
                             font-size: 1.3rem;
+                            color: rgb(29, 29, 29);
                             // margin-left: 20px;
                         }
                         .contact-last-message{
@@ -283,6 +357,131 @@ html, body{
                             margin: 0;
                             color: rgba(0,0,0,0.5);
                             // margin-left: 20px;
+                        }
+                    }
+                }
+            }
+            >.contact-actions-modal{
+                // align-content: flex-start;
+                width:100%;
+                height: 100%;
+                position: absolute;
+                background-color: $background-color;
+                border-bottom-left-radius: 12px;
+                border-bottom-right-radius: 12px;
+                // border-top: 5px solid rgb(46, 46, 46);
+                top: -100%;
+                transition: 0.4s;
+                >form{
+                    @include flex($jc: center, $ai: center);
+                    width:100%;
+                    height: 100%;
+                    // z-index: 2;
+                    gap: 9px;
+                    z-index: 3;
+                    
+                    >div{
+                        // @include flex($jc: center, $ai: flex-start, $fw: wrap);
+                        display: grid;
+                        grid-auto-flow: row;
+                        flex: 1 0;
+                        // justify-items: center;
+                        // align-content: center;
+                        gap: 1px;
+                        width: 100%;
+                        height: 82%;
+                        // margin-bottom: 2%;
+                        border-top: 5px solid rgb(46, 46, 46);
+                        border-bottom: 5px solid rgb(46, 46, 46);
+                        transition: 0.3s;
+                        position: relative;
+                        >.icon-grid{
+                            @include flex($jc: center,$ai: center);
+                            flex: 1 0 100%;
+                            width: 100%;
+                            height: 17%;
+                            background-image: url(add-contact-icon-grid.svg);
+                            background-repeat: no-repeat;
+                            background-size: cover;
+                            background-color: rgb(46, 46, 46);
+                            // margin-top: min(2vh, 30px);
+                            margin-top: min(4vh, 60px);
+                            margin-bottom: min(4vh, 60px);
+                            position: absolute;
+                            text-align: center;
+                        
+                            >.modal-info{
+                                
+                                max-width: 60%;
+                                height: 50%;
+                                color: white;
+                                font-size: 1.7rem;
+                                // margin-top: 90px;
+                                // margin-bottom: 28px;
+                                font-weight: bold;
+                                // line-height: -50%;
+                                border-bottom: 2px solid $primary-color;
+                                display: inline;
+                                margin:auto;
+                                // margin: 10px;
+                                // top: 50%;
+                                // bottom: 50%;
+                                // transform: translateY(-50%);
+                            }
+                        }
+                        >.inputs-container{
+                            @include flex($jc: center, $ai: center);
+                            align-self: flex-end;
+                            flex-direction: column;
+                            flex: 1 0 100%;
+                            width: 100%;
+                            min-height: 50%;
+                            margin-top: 10%;
+                            margin-bottom: 15%;
+                            gap: 20px;
+                            .add-contact-number, .add-contact-name{
+                                @include flex($jc: center, $ai: center);
+                                // flex: 1 0;
+                                max-width: 65%;
+                                max-height: 17%;
+                                padding: 0;
+                                margin: 0;
+                                
+                                input{
+                                    // flex: 1 0;
+                                    max-width: 90%;
+                                    padding: 6px 6px;
+                                    color: white;
+                                    // color: rgb(85, 85, 85);
+                                    background-color: rgb(46, 46, 46);
+                                    border: none;
+                                    font-size: 1rem;
+                                    border-radius: 3px;
+        
+                                    &:focus{
+                                        outline: none;
+                                    }
+                                }
+                            }
+                            >.create-contact-btn{
+                                // flex: 1 0;
+                                padding: 4px 26px;
+                                color: white;
+                                background-color: $primary-color;
+                                border: none;
+                                margin-top: 50px;
+                                transition: 0.5s;
+                                font-size: 1.1rem;
+                                font-weight: bold;
+                                justify-self: flex-end;
+                                // position: absolute;
+                                // bottom: 30px;
+                                border-radius: 3px;
+        
+                                &:hover{
+                                    background-color: $secondary-color;
+                                }
+                            }
                         }
                     }
                 }
