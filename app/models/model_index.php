@@ -42,7 +42,15 @@ class model_index extends Model
     {
         // $response = array();
         $result = $this->doSelect("SELECT * FROM contacts WHERE user_id=" . $this->session_get("id"));
-        
+        // if(!$result){
+        //     $result = $this->doSelect("SELECT * FROM contacts WHERE contact_pnumber=" . $this->session_get("number"));
+        // }
+        echo json_encode($result);
+    }
+
+    function load_contact_messages($post)
+    {
+        $result = $this->doSelect("SELECT * FROM messages WHERE sender_id=" . $this->session_get("id") . " AND recipient_id=" . $post["contact-id"]);
         echo json_encode($result);
     }
 
@@ -50,6 +58,17 @@ class model_index extends Model
     {
         $sql = ("UPDATE contacts SET name=(?) WHERE user_id=(?) AND contact_id=(?)");
         $params = array($post['name'],$this->session_get("id"),$this->doSelect("SELECT id FROM users WHERE pnumber=" . $post["contact-number"])[0]['id']);
+        $this->doQuery($sql, $params);
+        echo json_encode(array(
+            "type" => "success",
+            "code" => 0,
+        ));
+    }
+
+    function send_message($post)
+    {
+        $sql = "INSERT INTO messages (sender_id, recipient_id, message) VALUES (?, ?, ?)";
+        $params = array($this->session_get("id"), $post["recipient_id"], $post["message"]);
         $this->doQuery($sql, $params);
         echo json_encode(array(
             "type" => "success",

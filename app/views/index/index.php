@@ -48,14 +48,42 @@
         </div>
 
         <div class="main-container">
-            <div class="messenger-container">
+            <div id="messenger-container">
+                <div id="cover">
+                    <p>Select a contact to chat with them!</p>
+                </div>
+                <div id="messenger-wrapper" class="hidden">
+                    <div id="top-bar">
+                        <div id="contact-info">
+                            <div>
+                                <img src="app\views\index\css\user-icon.webp" alt="profile picture">
+                            </div>
+                            <p></p>
+                        </div>
+                        <button id="options-btn"></button>
+                    </div>
+                    <div id="messages-container">
+                        <div>
 
+                        </div>
+                    </div>
+                    <div id="bottom-bar">
+                        <div>
+                            <div id="message-input">
+                                <input type="text" placeholder="Write your message here...">
+                                <div id="message-buttons">
+                                    <button id="send-button">Send</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="contact-wrapper">
                 <div class="contact-control">
                     <button title="Add contact" class="add-contact-btn" type="button">+</button>
-                    <button title="Edit mode" class="edit-contact-btn" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg></button>
+                    <!-- <button title="Edit mode" class="edit-contact-btn" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg></button> -->
 
                 </div>
                 <div class="contacts-container">

@@ -35,8 +35,16 @@ class Index extends Controller
         $this->model->get_contacts();
     }
 
+    function load_contact_messages()
+    {
+        $this->model->load_contact_messages($_POST);
+    }
     function edit_contact()
     {
         $this->model->edit_contact($_POST);
+    }
+    function send_message()
+    {
+        $this->model->send_message($_POST);
     }
 }

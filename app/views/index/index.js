@@ -1,12 +1,14 @@
-let edit_mode = false
 let contacts;
-{ // loading actions/refreshing contacts
+let currently_selected;
+{ // loading functions/refreshing contacts
     // refreshing contacts
     let card;
-    function refresh_contacts(){
-        card = $(".contact-card").clone(true)
+    function refresh_contacts(num = false){
+        card = $(".contacts-container>.contact-card:first").clone(true)
         card.removeClass("hidden")
-        $(".contacts-container").empty()
+        card.removeAttr("style")
+        card.children(".message-wrapper").children().removeAttr("style")
+        $(".main-container>.contact-wrapper>.contacts-container").empty()
         $.ajax({
             url: "index/get_contacts",
             type: "POST",
@@ -23,10 +25,17 @@ let contacts;
                     new_card.data('name', i["name"])
                     new_card.data('contact-id', i["contact_id"])
                     new_card.data('contact-number', i["contact_pnumber"])
+                    if(i["contact_pnumber"] == num){
+                        new_card.data('selected', true)
+                        new_card.css("background-color", "rgb(255, 202, 56)")
+                        new_card.children(".message-wrapper").children().css("color", "white")
+                        currently_selected = new_card
+                    }else{
+                        new_card.data('selected', false)
+                    }
                     let info = new_card.children(".message-wrapper")
                     info.children(".contact-name").text(i["name"])
                     info.children(".contact-last-message").text("...").css("font-size", "1.3rem")
-                    
                 };
             },
             error: function (response) {
@@ -34,8 +43,37 @@ let contacts;
             }
         });
     }
+    function load_messages(contact){
+        $.ajax({
+            url: "index/load_contact_messages",
+            type: "POST",
+            data: {
+                "contact-id" : contact.data("contact-id"), 
+            },
+            success: function (response){
+                response = JSON.parse(response);
+                message_data = []
+                for(let [val, i] of response.entries()){
+                    message_data.push(i)
+                };
+                message_data.sort((a, b) => a.id - b.id);
+                $("#messenger-container #messages-container").children().empty()
+                message_data.forEach(function(data){
+                    if(data["sender_id"] == contact.data("contact-id")){
+                        $("#messenger-container #messages-container").children().append("<p class='contact-message'>" + data["message"] + "</p>")
+                    }else{
+                        $("#messenger-container #messages-container").children().append("<p class='user-message'>" + data["message"] + "</p>")
+                    }
+                    
+                })
+            },
+            error: function (response) {
+                alert("Server-side error.");
+            }
+        });
+    }
 }
-{ // contact actions
+{ // contact functions
     { // modals
         // opening the add contact modal
         let main_open = false
@@ -72,15 +110,11 @@ let contacts;
             }
         })
         // edit mode button
-        $(".edit-contact-btn").on('click',function (){
-            if(!edit_mode){
-                edit_mode = true
-                $(".edit-contact-btn>svg").css("fill", "rgb(111, 187, 241)")
-            }else{
-                edit_mode = false
-                // $(".edit-contact-btn>svg").css("fill", "white")
-                $(".edit-contact-btn>svg").removeAttr("style")
-            }
+        $("#messenger-container>#messenger-wrapper>#top-bar>#options-btn").on('click',function (){
+            let profile = $(".main-wrapper>.profile-popup>#profile-container")
+            profile.find("#info-section>div #name").text(currently_selected.data("name"))
+            profile.find("#info-section>div #phone-number").text(currently_selected.data("contact-number"))
+            $(".main-wrapper>.profile-popup").toggleClass("hidden")
         })
     }
     // actually adding new contacts
@@ -212,7 +246,7 @@ let contacts;
                 },
                 success: function (response){
                     let response2 = JSON.parse(response)
-                    refresh_contacts()
+                    refresh_contacts(pnumber)
                     $(".main-wrapper>.profile-popup").addClass("hidden")
                     // response = JSON.parse(response);
                     // for(let res in response){
@@ -225,16 +259,54 @@ let contacts;
             name_change = false
         }
     })
-
+    
     $(".contacts-container .contact-card").each(function(){
         $(this).on("click", function(){
-            if(edit_mode){
-                let profile = $(".main-wrapper>.profile-popup>#profile-container")
-                profile.find("#info-section>div #name").text($(this).data("name"))
-                profile.find("#info-section>div #phone-number").text($(this).data("contact-number"))
-                $(".main-wrapper>.profile-popup").toggleClass("hidden")
+            if($(this).data("selected") == false){
+                $(".contacts-container .contact-card").each(function(){
+                    $(this).data("selected", false)
+                    $(this).css("background-color", "")
+                    $(this).children(".message-wrapper").children().css("color", "")
+                })
+                let data;
+                let wrapper = $("#messenger-container>#messenger-wrapper")
+                $(this).data("selected", true)
+                $(this).css("background-color", "rgb(255, 202, 56)")
+                $(this).children(".message-wrapper").children().css("color", "white")
+                wrapper.css("display", "initial")
+                $("#messenger-container>#cover").addClass("hidden")
+                load_messages($(this))
+                
+                setTimeout(function() {
+                    wrapper.removeClass("hidden")
+                }, 300)
+                currently_selected = $(this)
+                wrapper.children("#top-bar").children("#contact-info").children("p").text($(this).data('name'))
 
             }
         })
+    })
+}
+{ // messaging functions
+    $("#messenger-container #bottom-bar #message-buttons>#send-button").on("click", function(){
+        let message = $("#messenger-container #bottom-bar #message-input>input").val()
+        if(message.length > 0){
+            $.ajax({
+                url: "index/send_message",
+                type: "POST",
+                data: {
+                    "recipient_id" : currently_selected.data("contact-id"),
+                    "message" : message
+                },
+                success: function (response){
+                    response = JSON.parse(response);
+                    load_messages(currently_selected)
+                    $("#messenger-container #bottom-bar #message-input>input").val('')
+                },
+                error: function (response) {
+                    alert("Server-side error.")
+                }
+            });
+        }
     })
 }

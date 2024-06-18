@@ -1,5 +1,5 @@
 @use "sass:math";
-$main-color: rgb(247, 201, 77);
+$main-color: rgb(255, 202, 56);
 
 html{
     background-image: url(background.webp);
@@ -83,7 +83,7 @@ html{
         height: 40px;
     }
     div:has(.colored_button){
-        margin-top: 16vh;
+        margin-top: 18vh;
     }
     div:has(a){
         margin-top: 5px;
