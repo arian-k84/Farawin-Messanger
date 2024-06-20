@@ -16,7 +16,7 @@
             <!-- <form action="login/insert_data" method="post"> -->
             <form onsubmit="return false;" autocomplete="on">
                 <h1>Login</h1>
-                <div id="pnumber_box">
+                <div id="pnumber-box">
                     <label>
                         Phone Number
                         <br>
@@ -24,7 +24,7 @@
                         <div class="error_text hidden_text">*</div>
                     </label>
                 </div>
-                <div id="password_box">
+                <div id="password-box">
                     <label>
                         Password
                         <br>
@@ -36,48 +36,11 @@
                     <input class="colored_button" type="submit" value="Confirm">
                 </div>
                 <div>
-                    <a href="<?= URL ?>/register">Trying to register instead?</a>
+                    <a id="redirect-link" href="<?= URL ?>/register">Trying to register instead?</a>
                 </div>
             </form>
         </div>
         <script src="public/js/jquery-3.4.1.min.js"></script>
-        <script>
-            $("input[type='submit']").on('click',function (){
-                $(".error_text").each(function() {
-                    if(!$(this).hasClass("hidden_text")){
-                        $(this).addClass("hidden_text")
-                    }
-                })
-                let num = $("input[name='number']").val()
-                let pass = $("input[name='password']").val()
-                if(num[0] == "0"){
-                        num = num.slice(1, num.length)
-                        $("input[name='number']").val(num)
-                    }
-                $.ajax({
-                    url: "login/check_data",
-                    type: "POST",
-                    data: {
-                        "number": num,
-                        "password": pass,
-                    },
-                    success: function (response){
-                        response = JSON.parse(response);
-                        switch(response.code){
-                            case 0:
-                                $("#password_box .error_text").text("*Wrong number or password.")
-                                $("#password_box .error_text").removeClass("hidden_text")
-                                break
-                            case 1:
-                                window.location.assign("<?= URL ?>");
-                                break
-                        };
-                    },
-                    error: function (response) {
-                        alert("Server-side error.");
-                    }
-                });
-            })
-        </script>
+        <script src="app/views/login/index.js"></script>
     </body>
 </html>

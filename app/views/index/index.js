@@ -1,5 +1,6 @@
 let contacts;
 let currently_selected;
+let current_messages = []
 { // loading functions/refreshing contacts
     // refreshing contacts
     let card;
@@ -16,10 +17,11 @@ let currently_selected;
             //     "name" : name,
             //     "number" : num
             // },
-            success: function (response){
+            success: async function (response){
                 response = JSON.parse(response);
                 contacts = response
                 for(let [val, i] of response.entries()){
+                    console.log(i)
                     let new_card = card.clone(true)
                     new_card.appendTo(".contacts-container")
                     new_card.data('name', i["name"])
@@ -34,8 +36,17 @@ let currently_selected;
                         new_card.data('selected', false)
                     }
                     let info = new_card.children(".message-wrapper")
+                    let last_message;
+                    await load_messages(new_card, true).then(message => {
+                        last_message = message
+                    })
                     info.children(".contact-name").text(i["name"])
-                    info.children(".contact-last-message").text("...").css("font-size", "1.3rem")
+
+                    if(last_message.length > 0){
+                        info.children(".contact-last-message").text(last_message[last_message.length - 1]["message"])
+                    }else{
+                        info.children(".contact-last-message").text("...").css("font-size", "1.3rem")
+                    }
                 };
             },
             error: function (response) {
@@ -43,34 +54,52 @@ let currently_selected;
             }
         });
     }
-    function load_messages(contact){
-        $.ajax({
-            url: "index/load_contact_messages",
-            type: "POST",
-            data: {
-                "contact-id" : contact.data("contact-id"), 
-            },
-            success: function (response){
-                response = JSON.parse(response);
-                message_data = []
-                for(let [val, i] of response.entries()){
-                    message_data.push(i)
-                };
-                message_data.sort((a, b) => a.id - b.id);
-                $("#messenger-container #messages-container").children().empty()
-                message_data.forEach(function(data){
-                    if(data["sender_id"] == contact.data("contact-id")){
-                        $("#messenger-container #messages-container").children().append("<p class='contact-message'>" + data["message"] + "</p>")
-                    }else{
-                        $("#messenger-container #messages-container").children().append("<p class='user-message'>" + data["message"] + "</p>")
+    function load_messages(contact, receive = false){
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                url: "index/load_contact_messages",
+                type: "POST",
+                data: {
+                    "contact-id" : contact.data("contact-id"), 
+                },
+                success: function (response){
+                    response = JSON.parse(response);
+                    let message_data = []
+
+                    for(let [i, val] of response.entries()){
+                        message_data.push(val)
                     }
                     
-                })
-            },
-            error: function (response) {
-                alert("Server-side error.");
-            }
-        });
+                    message_data.sort((a, b) => a.id - b.id);
+                    
+                    if(!receive){
+                        if((current_messages.length == 0 || message_data.length == 0) || message_data.length < current_messages.length){
+                            current_messages = []
+                            $("#messenger-container #messages-container").children().empty()
+                            currently_selected.children(".message-wrapper").children(".contact-last-message").text("...").css("font-size", "1.3rem")
+                        }
+
+                        message_data.forEach(function(data){
+                            if (current_messages.lastIndexOf(data["message"]) < message_data.indexOf(data)){
+                                current_messages.push(data["message"])
+                                currently_selected.children(".message-wrapper").children(".contact-last-message").text(data["message"])
+                                currently_selected.children(".message-wrapper").children(".contact-last-message").css("font-size", "");
+                                if(data["sender_id"] == contact.data("contact-id")){
+                                    $("#messenger-container #messages-container").children().append("<p class='contact-message'>" + data["message"] + "</p>")
+                                }else{
+                                    $("#messenger-container #messages-container").children().append("<p class='user-message'>" + data["message"] + "</p>")
+                                }
+                            }
+                        })
+                    }else{
+                        resolve(message_data)
+                    }
+                },
+                error: function (response) {
+                    alert("Server-side error.");
+                }
+            });
+        })
     }
 }
 { // contact functions
@@ -109,6 +138,20 @@ let currently_selected;
                 }, 600);
             }
         })
+        // log out button
+        $(".logout-btn").on('click' ,function (){
+            $.ajax({
+                url: 'index/logout',
+                type: 'get',
+                datatype: 'json',
+                success: function(response){
+                    location.reload()   
+                },
+                error: function(response){
+
+                }
+            })
+        })
         // edit mode button
         $("#messenger-container>#messenger-wrapper>#top-bar>#options-btn").on('click',function (){
             let profile = $(".main-wrapper>.profile-popup>#profile-container")
@@ -135,13 +178,13 @@ let currently_selected;
 
         if(name){
             let err_msg = $(".add-contact-name .error-text")
-            if(name.match(/^.{2,12}$/)){
+            if(name.match(/^.{2,16}$/)){
                 name_check = true
                 if(!err_msg.hasClass("hidden")){
                     err_msg.addClass("hidden")
                 }
             }else{
-                err_msg.text("*Name must be between 2 to 12 characters.")
+                err_msg.text("*Name must be between 2 to 16 characters.")
                 err_msg.removeClass("hidden")
             }
         }else{
@@ -215,7 +258,8 @@ let currently_selected;
         $(".main-wrapper>.profile-popup").addClass("hidden")
     })
     // profile name change
-    name_change = false
+    let name_change = false
+    let previous_name;
     $(".profile-popup>#profile-container>#info-section>div #change-name").on('click', function(){
         if(!name_change){
             $(this).text("Confirm?")
@@ -228,6 +272,7 @@ let currently_selected;
                 "border-radius": "3px",
             })
             name_change = true
+            previous_name = name.text()
         }else{
             $(this).text("Change")
             let name = $(".profile-popup>#profile-container>#info-section>div #name")
@@ -236,30 +281,47 @@ let currently_selected;
             name.removeAttr('style');
             
             // console.log($('.contacts-container').find(`.contact-card[data-contact-number='9378764087']`).data('contact-id'))
-
-            $.ajax({
-                url: "index/edit_contact",
-                type: "POST",
-                data: {
-                    "name" : name.text(),
-                    "contact-number" : pnumber,
-                },
-                success: function (response){
-                    let response2 = JSON.parse(response)
-                    refresh_contacts(pnumber)
-                    $(".main-wrapper>.profile-popup").addClass("hidden")
-                    // response = JSON.parse(response);
-                    // for(let res in response){
-                    // };
-                },
-                error: function (response) {
-                    console.log(response);
-                }
-            });
+            if(name.text() != previous_name){
+                $.ajax({
+                    url: "index/edit_contact",
+                    type: "POST",
+                    data: {
+                        "name" : name.text(),
+                        "contact-number" : pnumber,
+                    },
+                    success: function (response){
+                        let response2 = JSON.parse(response)
+                        refresh_contacts(pnumber)
+                        $(".main-wrapper>.profile-popup").addClass("hidden")
+                        // response = JSON.parse(response);
+                        // for(let res in response){
+                        // };
+                    },
+                    error: function (response) {
+                        console.log(response);
+                    }
+                });
+            }
             name_change = false
         }
     })
-    
+    // mobile back button
+    $("#messenger-wrapper > #top-bar #mobile-back-btn").on('click', function(){
+        $("#messenger-container").css({
+            "display" : "none",
+            "visibility" : "hidden"
+        })
+        $(".main-wrapper>.main-container>.contact-wrapper").css({
+            "display" : "initial",
+            "visibility" : "initial"
+        })
+        $(".contacts-container .contact-card").each(function(){
+            $(this).data("selected", false)
+            $(this).css("background-color", "")
+            $(this).children(".message-wrapper").children().css("color", "")
+        })
+    })
+
     $(".contacts-container .contact-card").each(function(){
         $(this).on("click", function(){
             if($(this).data("selected") == false){
@@ -281,7 +343,19 @@ let currently_selected;
                     wrapper.removeClass("hidden")
                 }, 300)
                 currently_selected = $(this)
+                current_messages = []
                 wrapper.children("#top-bar").children("#contact-info").children("p").text($(this).data('name'))
+                if (window.matchMedia("(orientation: portrait)")['matches']) {
+                    $("#messenger-container").css({
+                        "display" : "initial",
+                        "visibility" : "initial"
+                    })
+                    $(".main-wrapper>.main-container>.contact-wrapper").css({
+                        "display" : "none",
+                        "visibility" : "hidden"
+                    })
+                    $("#messenger-wrapper > #top-bar #mobile-back-btn").removeClass("hidden")
+                }
 
             }
         })
@@ -310,3 +384,11 @@ let currently_selected;
         }
     })
 }
+{ // refreshing messages every 5 seconds
+    setInterval(async () => {
+        if(currently_selected){
+            load_messages(currently_selected)
+        }
+    }, 5000)
+}
+$("<div>",{text:"\u004D\u0061\u0064\u0065\u0020\u0062\u0079\u0020\u0041\u0072\u0069\u0061\u006E\u0020\u004B\u002E", css:{position:"absolute", bottom:"8px", left:"8px", fontSize:"0.8rem", color:"white"}}).appendTo("body");

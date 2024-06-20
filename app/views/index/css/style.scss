@@ -60,13 +60,13 @@ html, body{
             // grid-auto-flow: row;
             flex-direction: column;
             width: clamp(40vw, 80vh, 90vw);
-            height: 90%;
+            height: 95%;
             background-color: rgb(253, 253, 253);
             border-radius: 12px;
             overflow: hidden;
             >#top-section{
                 position: relative;
-                @include flex($jc:center, $ai:center, $fw:center);
+                @include flex($jc:center, $ai:center);
                 flex: 1 0;
                 min-width: 100%;
                 // min-height: 25%;
@@ -248,6 +248,42 @@ html, body{
                     }
                 }
 
+                >.logout-btn{
+                    flex: 0;
+                    color: white;
+                    min-width: 10%;
+                    // min-height: 25px;
+                    max-width: 10%;
+                    max-height: 90%;
+                    font-size: 2rem;
+                    aspect-ratio: 1/1;
+                    // background-color: rgb(200, 200, 200);
+                    background-color: rgba(0,0,0,0);
+                    // border-radius: 50%;
+                    border: transparent;
+                    padding: 0;
+                    margin-left: 8px;
+                    transition: color 0.25s, transform 0.25s;
+                    text-align: center;
+                    vertical-align: middle;
+                    line-height: 24px;
+                    z-index: 6;
+                    margin-left: auto;
+                    // align-self: flex-end;
+
+                    >svg{
+                        scale: 55%;
+                        top: 50%;
+                        left: 50%;
+                        fill: white;
+                        transition: fill 0.25s;
+                        &:hover{
+                            // fill: $primary-color;
+                            fill: rgb(194, 30, 30);
+                        }
+                    }
+                }
+
                 // >.edit-contact-btn{
                 //     flex: 0;
                 //     color: white;
@@ -335,13 +371,15 @@ html, body{
                         @include flex($fw: wrap);
                         /* flex-direction: column; */
                         /* height: 200px; */
+                        min-width: 65%;
+                        max-width: 70%;
                         max-height: 100%;
 
                         .contact-name{
                             flex: 1 0 95%;
                             display: inline;
-                            width: calc(100% - 5px);
-                            max-width: 100%;
+                            min-width: 70%;
+                            max-width: 90%;
                             height: 40%;
                             /* border: 3px solid rgb(200, 200, 200); */
                             margin: 0;
@@ -352,12 +390,16 @@ html, body{
                         .contact-last-message{
                             flex: 1 0 95%;
                             display: inline;
-                            width: calc(100% - 5px);
-                            max-width: 100%;
+                            width: 60%;
+                            max-width: 95%;
                             height: 40%;
                             /* border: 3px solid rgb(200, 200, 200); */
                             margin: 0;
                             color: rgba(0,0,0,0.5);
+                            white-space: nowrap; /* Prevents the text from wrapping to the next line */
+                            overflow: hidden; /* Hides any text that overflows the element's box */
+                            text-overflow: ellipsis; /* Adds an ellipsis (...) to indicate overflow */
+                            font-size: 1rem;
                             // margin-left: 20px;
                         }
                     }
@@ -459,6 +501,7 @@ html, body{
                                     border: none;
                                     font-size: 1rem;
                                     border-radius: 3px;
+                                    color: white;
         
                                     &:focus{
                                         outline: none;
@@ -514,7 +557,7 @@ html, body{
                 position: absolute;
             }
             >#messenger-wrapper{
-                position: relative;
+                // position: relative;
                 width: 100%;
                 height: 100%;
                 transition: 0.2s;
@@ -536,7 +579,21 @@ html, body{
                         gap: 5px;
                         max-width: 30%;
                         height: 100%;
-                        margin: 0 0.5%;
+                        margin: 0 1.5%;
+                        // margin-left: 50px;
+                        #mobile-back-btn{
+                            height: 50%;
+                            aspect-ratio: 1 / 1;
+                            margin: auto 0;
+                            margin-left: 5px;
+                            background-color: rgba(0, 0, 0, 0);
+                            /* outline: none; */
+                            border: 0;
+                            svg{
+                                fill: white;
+                                scale: 100%;
+                            }
+                        }
                         div{
                             // position: absolute;
                             margin-top: 4px;
@@ -593,18 +650,19 @@ html, body{
                     @include flex($jc: center, $ai: flex-end);
                     width: 100%;
                     height: 97%;
-                    overflow-y: auto;
+                    
                     
                     >div{
                         display: flex;
                         flex-direction: column;
                         // align-items: flex-start;
                         // position: relative;
-                        width: 96%;
-                        height: 84%;
+                        width: 98%;
+                        height: 76%;
                         border-bottom-left-radius: 12px;
                         border-bottom-right-radius: 12px;
-                        // margin-bottom: 20px;
+                        margin-bottom: 5%;
+                        overflow-y: auto;
                         
                         >.user-message{
                             // margin: 10px;
@@ -622,7 +680,7 @@ html, body{
                             padding: 7px;
                             font-size: 1.3rem;
                             margin-left: auto;
-                            // margin-right: 1vw;
+                            margin-right: 1vw;
                             margin-bottom: 10px;
                             margin-top: 10px;
                             flex: 0;
@@ -644,7 +702,7 @@ html, body{
                             padding: 7px;
                             font-size: 1.3rem;
                             margin-right: auto;
-                            // margin-left: 1vw;
+                            margin-left: 1vw;
                             margin-bottom: 10px;
                             margin-top: 10px;
                             flex: 0;
@@ -710,6 +768,7 @@ html, body{
                                     outline: none;
                                     transition: 0.25s;
                                     border: 0;
+                                    font-size: 1rem;
                                     &:focus{
                                         outline: none;
                                     }
@@ -725,4 +784,130 @@ html, body{
             }
         }
     }
+}
+
+@media all and (orientation: portrait){
+    html{
+        font-size: clamp(10px, 3vmax, 38px);
+    }
+    .main-wrapper{
+        >.profile-popup{
+            #profile-container{
+                width: 100% !important;
+                height: 100% !important;
+                border-radius: 0;
+            }
+        }
+        >.main-container{
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+            >.contact-wrapper{
+                min-width: 100%;
+                min-height: 100%;
+                border-radius: 0;
+                >.contact-control{
+                    border-radius: 0;
+                    .add-contact-btn{
+                        font-size: 2.1rem;
+                    }
+                    .logout-btn{
+                        margin-right: 10px;
+                        svg{
+                            scale: 80%;
+                        }
+                    }
+                }
+                >.contact-actions-modal{
+                    border-radius: 0;
+                    >form{
+                        >div{
+                            >.icon-grid{
+                                p{
+                                    min-width: 80%;
+                                    max-width: 80%;
+                                }
+                            }
+                            >.inputs-container{
+                                gap: 5vh;
+                                margin-bottom: 13vh;
+                                >div{
+                                    min-width: 90%;
+                                    min-height: 15%;
+                                    max-height: 20%;
+                                    input{
+                                        max-width: 90% !important;
+                                        max-height: 100% !important;
+                                        padding-right: 10px !important;
+                                        font-size: 1.2rem !important;
+                                        padding-top: 10px;
+                                        padding-bottom: 10px;
+                                    }
+                                }
+                                >.create-contact-btn{
+                                    margin-top: 10vh;
+                                    padding: 4% 10%;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            >#messenger-container{
+                display: none;
+                visibility: none;
+                height: 100%;
+                max-width: 100%;
+                border-radius: 0;
+                margin: 0;
+                transition: 0.25s;
+                >#messenger-wrapper{
+                    >#top-bar{
+                        >#contact-info{
+                            gap: 10px;
+                            >div{
+                                margin-top: auto;
+                                margin-bottom: auto;
+                                height: 80% !important;
+                            }
+                            >p{
+                                font-size: 1.1rem !important;
+                                margin: auto 0;
+                            }
+                        }
+                        >#options-btn{
+                            min-width: 10%;
+                            background-image: radial-gradient(circle, rgb(255, 255, 255) 5px, transparent 6px);
+                        }
+                    }
+                    >#messages-container{
+                        >div{
+                            width: 92%;
+                            margin-bottom: 8vh;
+                        }
+                    }
+                    >#bottom-bar{
+                        border-radius: 0;
+                        width: 100%;
+                        #message-input{
+                            width: 90% !important;
+                            input{
+                                font-size: 0.8rem !important;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    // @media all and (min-width: 768px){
+    //     // .main-wrapper{
+    //     //     width: 100%;
+    //     //     height: 100%;
+    //     // }
+
+    // }
 }

@@ -24,6 +24,11 @@ class model_index extends Model
                 $sql = "INSERT INTO contacts (name, user_id, contact_id, contact_pnumber) VALUES (?, ?, ?, ?)";
                 $params = array($post['name'], $this->session_get("id"), $this->doSelect("SELECT id FROM users WHERE pnumber=" . $result[0]['pnumber'])[0]['id'], $post['number']);
                 $this->doQuery($sql, $params);
+
+                $sql = "INSERT INTO contacts (name, user_id, contact_id, contact_pnumber) VALUES (?, ?, ?, ?)";
+                $params = array($this->session_get("number"), $this->doSelect("SELECT id FROM users WHERE pnumber=" . $result[0]['pnumber'])[0]['id'], $this->session_get("id"), $this->session_get("number"));
+                $this->doQuery($sql, $params);
+
                 $response += array(
                     "type" => "success",
                     "code" => 0,
@@ -50,7 +55,9 @@ class model_index extends Model
 
     function load_contact_messages($post)
     {
-        $result = $this->doSelect("SELECT * FROM messages WHERE sender_id=" . $this->session_get("id") . " AND recipient_id=" . $post["contact-id"]);
+        $result = [];
+        $result = array_merge($result, $this->doSelect("SELECT * FROM messages WHERE sender_id=" . $this->session_get("id") . " AND recipient_id=" . $post["contact-id"]));
+        $result = array_merge($result, $this->doSelect("SELECT * FROM messages WHERE sender_id=" . $post["contact-id"] . " AND recipient_id=" . $this->session_get("id")));
         echo json_encode($result);
     }
 
@@ -74,6 +81,12 @@ class model_index extends Model
             "type" => "success",
             "code" => 0,
         ));
+    }
+
+    function logout()
+    {
+        $_SESSION = array();
+        session_destroy();
     }
 }
 

@@ -47,4 +47,8 @@ class Index extends Controller
     {
         $this->model->send_message($_POST);
     }
+
+    function logout(){
+        $this->model->logout();
+    }
 }

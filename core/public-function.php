@@ -19,10 +19,10 @@ trait publicTrait
         @ob_start();
     }
 
-    public static function cookie_set($name, $value, $duratain)
+    public static function cookie_set($name, $value, $duration)
     {
         @self::cookie_init();
-        setcookie($name, $value, $duratain, '/', NULL, NULL, TRUE);
+        setcookie($name, $value, $duration, '/', NULL, NULL, TRUE);
     }
 
     public static function cookie_get($name)
@@ -196,7 +196,11 @@ trait publicTrait
         foreach ($values as $key => $value) {
             $stmt->bindValue($key + 1, $value);
         }
+        try{
         $stmt->execute();
+        }catch(\Exception $err){
+            error_log("doQuery error: " . $err->getMessage());
+        }
     }
 
 

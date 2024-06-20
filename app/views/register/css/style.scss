@@ -57,14 +57,31 @@ html{
         color: rgb(250, 250, 250);
         /* font-size: 1.05em; */
         flex: 1 0 0;
-        div{
-            max-width: 173px;
-            max-height: 65px;
+        // div{
+        //     display: flex;
+        //     flex-direction: column;
+        //     justify-content: center;
+        //     align-items: center;
+        //     min-width: 60%;
+        //     width: 70%;
+        //     height: 15%;
+        // }
+        #pnumber-box, #password-box, #cpassword-box{
+            min-width: 70%;
+            min-height: 15%;
+            input{
+                width: 100%;
+                padding-left: 8px;
+            }
         }
         h1{
+            text-align: center;
+            min-width: 55%;
+            font-weight: bolder;
             margin-top: clamp(16px, 4.5vh, 100px);
             margin-bottom: clamp(16px, 4.5vh, 100px);
             color: $main-color;
+            border-bottom: 2px solid rgb(141, 210, 255);
         }
 
         input{
@@ -73,8 +90,12 @@ html{
             border: none;
             color: white;
             background-color: rgba(10, 10, 10, 1);
-            min-width: 120px;
-            min-height: 30px;
+            min-width: 90%;
+            min-height: 50%;
+            font-size: 0.7rem;
+            &:focus{
+                outline: none;
+            }
         }
     }
     .colored_button{
@@ -83,13 +104,23 @@ html{
         height: 40px;
     }
     div:has(.colored_button){
+
         margin-top: 6vh;
+        min-width: 50%;
+        min-height: 8%;
+        >*{
+            font-size: 1.3rem;
+            font-weight: bold;
+            width: 100%;
+            // border-radius: 12px;
+        }
     }
     div:has(a){
         margin-top: 5px;
         max-width: 90%;
     }
     div a{
+        text-align: center;
         color: rgb(74, 170, 235);
         text-decoration: none;
         transition: 0.25s;
@@ -120,19 +151,27 @@ html{
     flex: 1.5 0 0;
     font-size: clamp(16px, 3.3vmin, 6vmax);
     >div{
-        width: 80%;
-        height: 70%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 4vh;
+        width: 90%;
+        height: 80%;
         border-radius: 12px;
-        >*{
+        p{
             margin-left: 12px;
             margin-right: 12px;
+            margin-top: 0;
+            margin-bottom: 0;
             color: rgb(250, 250, 250);
             /* font-size: 1.2em; */
         }
         >h2{
+            color: rgb(250, 250, 250);
             /* font-size: 2.5em; */
             margin-top: 0px;
-            margin-bottom: 30px;
+            margin-bottom: 0px;
+            border-bottom: 3px solid white;
         }
     }
     >*{
@@ -147,15 +186,61 @@ html{
 @media all and (orientation: portrait){
     #information_box{
         display: none;
+        visibility: hidden;
     }
-    #register_box form{
-        border-top-left-radius: 12px;
-        border-bottom-left-radius: 12px;
-        /* font-size: clamp(16px, 10vmin, 32vw); */
-        gap: 20px;
+    #register_box{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(22, 22, 32, 1);
+        >form{
+            max-width: 95%;
+            height: 80%;
+            // border-top-left-radius: 12px;
+            // border-bottom-left-radius: 12px;
+            /* font-size: clamp(16px, 10vmin, 32vw); */
+            gap: 30px;
+            >h1{
+                margin-top: 0;
+                margin-bottom: 4vh;
+                font-size: 2.1rem;
+            }
+
+            input{
+                min-width: 100%;
+                min-height: 50%;
+            }
+        }
+        div:has(.colored_button){
+            margin-top: 2vh;
+        }
     }
     html{
-        font-size: clamp(16px, 2.4vh, 10vmax);
-        zoom: 1.1;
+        background-image: none;
+        font-size: clamp(16px, 6vw, 10vmax);
+        zoom: 1.2;
+    }
+    @media all and (min-width: 768px){
+        html{
+            zoom: 0.8;
+            
+        }
+
+        #register_box form>h1{
+            border-bottom: 3px solid rgb(141, 210, 255);
+            margin-bottom: 10vh;
+        }
+        
+        #register_box div:has(.colored_button){
+            margin-top: 10vh;
+            min-width: 45%;
+            min-height: 9%;
+            >input{
+                width: 100%;
+                height: 100%;
+            }
+        }
     }
 }

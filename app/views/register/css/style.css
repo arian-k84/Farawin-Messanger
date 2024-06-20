@@ -59,14 +59,22 @@ html {
   /* font-size: 1.05em; */
   flex: 1 0 0;
 }
-#register_box form div {
-  max-width: 173px;
-  max-height: 65px;
+#register_box form #pnumber-box, #register_box form #password-box, #register_box form #cpassword-box {
+  min-width: 70%;
+  min-height: 15%;
+}
+#register_box form #pnumber-box input, #register_box form #password-box input, #register_box form #cpassword-box input {
+  width: 100%;
+  padding-left: 8px;
 }
 #register_box form h1 {
+  text-align: center;
+  min-width: 55%;
+  font-weight: bolder;
   margin-top: clamp(16px, 4.5vh, 100px);
   margin-bottom: clamp(16px, 4.5vh, 100px);
   color: rgb(255, 202, 56);
+  border-bottom: 2px solid rgb(141, 210, 255);
 }
 #register_box form input {
   border-radius: 0px;
@@ -74,8 +82,12 @@ html {
   border: none;
   color: white;
   background-color: rgb(10, 10, 10);
-  min-width: 120px;
-  min-height: 30px;
+  min-width: 90%;
+  min-height: 50%;
+  font-size: 0.7rem;
+}
+#register_box form input:focus {
+  outline: none;
 }
 #register_box .colored_button {
   /* background-color: rgb(247, 132, 56); */
@@ -84,12 +96,20 @@ html {
 }
 #register_box div:has(.colored_button) {
   margin-top: 6vh;
+  min-width: 50%;
+  min-height: 8%;
+}
+#register_box div:has(.colored_button) > * {
+  font-size: 1.3rem;
+  font-weight: bold;
+  width: 100%;
 }
 #register_box div:has(a) {
   margin-top: 5px;
   max-width: 90%;
 }
 #register_box div a {
+  text-align: center;
   color: rgb(74, 170, 235);
   text-decoration: none;
   transition: 0.25s;
@@ -122,20 +142,28 @@ html {
   font-size: clamp(16px, 3.3vmin, 6vmax);
 }
 #information_box > div {
-  width: 80%;
-  height: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4vh;
+  width: 90%;
+  height: 80%;
   border-radius: 12px;
 }
-#information_box > div > * {
+#information_box > div p {
   margin-left: 12px;
   margin-right: 12px;
+  margin-top: 0;
+  margin-bottom: 0;
   color: rgb(250, 250, 250);
   /* font-size: 1.2em; */
 }
 #information_box > div > h2 {
+  color: rgb(250, 250, 250);
   /* font-size: 2.5em; */
   margin-top: 0px;
-  margin-bottom: 30px;
+  margin-bottom: 0px;
+  border-bottom: 3px solid white;
 }
 #information_box > * {
   text-align: center;
@@ -149,15 +177,55 @@ html {
 @media all and (orientation: portrait) {
   #information_box {
     display: none;
+    visibility: hidden;
   }
-  #register_box form {
-    border-top-left-radius: 12px;
-    border-bottom-left-radius: 12px;
+  #register_box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(22, 22, 32);
+  }
+  #register_box > form {
+    max-width: 95%;
+    height: 80%;
     /* font-size: clamp(16px, 10vmin, 32vw); */
-    gap: 20px;
+    gap: 30px;
+  }
+  #register_box > form > h1 {
+    margin-top: 0;
+    margin-bottom: 4vh;
+    font-size: 2.1rem;
+  }
+  #register_box > form input {
+    min-width: 100%;
+    min-height: 50%;
+  }
+  #register_box div:has(.colored_button) {
+    margin-top: 2vh;
   }
   html {
-    font-size: clamp(16px, 2.4vh, 10vmax);
-    zoom: 1.1;
+    background-image: none;
+    font-size: clamp(16px, 6vw, 10vmax);
+    zoom: 1.2;
+  }
+}
+@media all and (orientation: portrait) and (min-width: 768px) {
+  html {
+    zoom: 0.8;
+  }
+  #register_box form > h1 {
+    border-bottom: 3px solid rgb(141, 210, 255);
+    margin-bottom: 10vh;
+  }
+  #register_box div:has(.colored_button) {
+    margin-top: 10vh;
+    min-width: 45%;
+    min-height: 9%;
+  }
+  #register_box div:has(.colored_button) > input {
+    width: 100%;
+    height: 100%;
   }
 }/*# sourceMappingURL=style.css.map */
