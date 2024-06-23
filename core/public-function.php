@@ -197,9 +197,11 @@ trait publicTrait
             $stmt->bindValue($key + 1, $value);
         }
         try{
-        $stmt->execute();
+            $stmt->execute();
+            return true;
         }catch(\Exception $err){
-            error_log("doQuery error: " . $err->getMessage());
+            error_log("doQuery error: " . $err->getMessage() . " inside" . $sql);
+            return false;
         }
     }
 

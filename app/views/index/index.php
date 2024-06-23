@@ -21,7 +21,7 @@
                     </span>
                 </div>
                 <div id="info-section">
-                    <p id="name">Profile</p>
+                    <p>Profile</p>
                     <div>
                         <ul>
                             <div>

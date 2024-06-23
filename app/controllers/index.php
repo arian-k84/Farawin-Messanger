@@ -35,9 +35,9 @@ class Index extends Controller
         $this->model->get_contacts();
     }
 
-    function load_contact_messages()
+    function load_messages()
     {
-        $this->model->load_contact_messages($_POST);
+        $this->model->load_messages($_POST);
     }
     function edit_contact()
     {
@@ -48,6 +48,10 @@ class Index extends Controller
         $this->model->send_message($_POST);
     }
 
+    function change_status()
+    {
+        $this->model->change_status($_POST);
+    }
     function logout(){
         $this->model->logout();
     }

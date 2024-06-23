@@ -14,7 +14,7 @@
                 </div>
             </div>
             <!-- <form action="register/insert_data" method="post"> -->
-            <form onsubmit="return false;" autocomplete="on">
+            <form onsubmit="return false;" autocomplete="off">
                 <h1>Register</h1>
                 <div id="pnumber-box">
                     <label>
@@ -35,8 +35,16 @@
                     <label>
                         Password
                         <br>
-                        <input type="password" Name="password" required maxlength="20" placeholder="Password">
-                        <div class="error_text hidden_text">*</div>
+                        <div>
+                            <input type="password" Name="password" required maxlength="20" placeholder="Password">
+                            <div id="conditions-box" class="hidden">
+                                <!-- <div class="error_text hidden_text">*</div> -->
+                                <p>*Must contain a digit.</p>
+                                <p>*Must contain a lower-case letter.</p>
+                                <p>*Must contain an upper-case letter.</p>
+                                <p>*Must be at least 6 and at most 20 characters.</p>
+                            </div>
+                        </div>
                     </label>
                 </div>
                 <div id="cpassword-box">

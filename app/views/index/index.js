@@ -1,53 +1,77 @@
 let contacts;
 let currently_selected;
+let current_contacts = []
 let current_messages = []
+let last_date;
 { // loading functions/refreshing contacts
     // refreshing contacts
     let card;
     function refresh_contacts(num = false){
-        card = $(".contacts-container>.contact-card:first").clone(true)
-        card.removeClass("hidden")
-        card.removeAttr("style")
-        card.children(".message-wrapper").children().removeAttr("style")
-        $(".main-container>.contact-wrapper>.contacts-container").empty()
         $.ajax({
             url: "index/get_contacts",
             type: "POST",
-            // data: {
-            //     "name" : name,
-            //     "number" : num
-            // },
+
             success: async function (response){
                 response = JSON.parse(response);
                 contacts = response
+                counter = 0
+                total = 0
                 for(let [val, i] of response.entries()){
-                    console.log(i)
-                    let new_card = card.clone(true)
-                    new_card.appendTo(".contacts-container")
-                    new_card.data('name', i["name"])
-                    new_card.data('contact-id', i["contact_id"])
-                    new_card.data('contact-number', i["contact_pnumber"])
-                    if(i["contact_pnumber"] == num){
-                        new_card.data('selected', true)
-                        new_card.css("background-color", "rgb(255, 202, 56)")
-                        new_card.children(".message-wrapper").children().css("color", "white")
-                        currently_selected = new_card
-                    }else{
-                        new_card.data('selected', false)
+                    if(current_contacts.includes(i["contact_pnumber"])){
+                        counter++
                     }
-                    let info = new_card.children(".message-wrapper")
-                    let last_message;
-                    await load_messages(new_card, true).then(message => {
-                        last_message = message
-                    })
-                    info.children(".contact-name").text(i["name"])
+                    total++
+                }
+                if(counter == total){
+                    for(let [val, i] of response.entries()){
+                        $(".contacts-container .contact-card").each(function (){
+                            if($(this).data("contact-id") == i["contact_id"] && i["status"] == 1){
+                                $(this).css('filter', 'brightnesss(1)')
+                                return
+                            }
+                        })
+                    }
+                }else{
+                    card = $(".contacts-container>.contact-card:first").clone(true)
+                    card.removeClass("hidden")
+                    card.removeAttr("style")
+                    card.children(".message-wrapper").children().removeAttr("style")
+                    $(".main-container>.contact-wrapper>.contacts-container").empty()
+                    current_contacts = []
+                    for(let [val, i] of response.entries()){
+                        current_contacts.push(i["contact_pnumber"])
+                        let new_card = card.clone(true)
+                        new_card.appendTo(".contacts-container")
+                        new_card.data('name', i["name"])
+                        new_card.data('contact-id', i["contact_id"])
+                        new_card.data('contact-number', i["contact_pnumber"])
+                        if(i["contact_pnumber"] == num){
+                            new_card.data('selected', true)
+                            new_card.css("background-color", "rgb(255, 202, 56)")
+                            new_card.children(".message-wrapper").children().css("color", "white")
+                            currently_selected = new_card
+                        }else{
+                            new_card.data('selected', false)
+                        }
+                        if(i["status"] == 0){
+                            new_card.children("img").css({
+                                filter: "brightness(0.7)"
+                            })
+                        }
+                        let info = new_card.children(".message-wrapper")
+                        let last_message;
+                        await load_messages(new_card, true).then(message => {
+                            last_message = message
+                        })
+                        info.children(".contact-name").text(i["name"])
 
-                    if(last_message.length > 0){
-                        info.children(".contact-last-message").text(last_message[last_message.length - 1]["message"])
-                    }else{
-                        info.children(".contact-last-message").text("...").css("font-size", "1.3rem")
-                    }
-                };
+                        if(last_message.length > 0){
+                            info.children(".contact-last-message").text(last_message[last_message.length - 1]["message"])
+                        }else{
+                            info.children(".contact-last-message").text("...").css("font-size", "1.3rem")
+                        }
+                    };
+                }
             },
             error: function (response) {
                 alert("Server-side error.");
@@ -57,7 +81,7 @@ let current_messages = []
     function load_messages(contact, receive = false){
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: "index/load_contact_messages",
+                url: "index/load_messages",
                 type: "POST",
                 data: {
                     "contact-id" : contact.data("contact-id"), 
@@ -82,12 +106,28 @@ let current_messages = []
                         message_data.forEach(function(data){
                             if (current_messages.lastIndexOf(data["message"]) < message_data.indexOf(data)){
                                 current_messages.push(data["message"])
+                                let date = data["date_sent"].split(' ')[0]
+                                let time = data["date_sent"].split(' ')[1].split(":")
                                 currently_selected.children(".message-wrapper").children(".contact-last-message").text(data["message"])
                                 currently_selected.children(".message-wrapper").children(".contact-last-message").css("font-size", "");
+                                if(last_date !== date){
+                                    last_date = date
+                                    $("<p class='date'></p>").text(date).appendTo($("#messenger-container #messages-container > div"))
+                                }
                                 if(data["sender_id"] == contact.data("contact-id")){
-                                    $("#messenger-container #messages-container").children().append("<p class='contact-message'>" + data["message"] + "</p>")
-                                }else{
-                                    $("#messenger-container #messages-container").children().append("<p class='user-message'>" + data["message"] + "</p>")
+                                    let p = $("<p class='contact-message'></p>").text(data["message"]).appendTo($("#messenger-container #messages-container > div"));
+                                    p.append($('<p>').css({
+                                        opacity: 0.9,
+                                        fontSize: '0.9rem',
+                                        margin: 0,
+                                    }).text(time[0] + ":" + time[1]));
+                                } else {
+                                    let p = $("<p class='user-message'></p>").text(data["message"]).appendTo($("#messenger-container #messages-container > div"));
+                                    p.append($('<p>').css({
+                                        opacity: 0.9,
+                                        fontSize: '0.9rem',
+                                        margin: 0,
+                                    }).text(time[0] + ":" + time[1]));
                                 }
                             }
                         })
@@ -387,8 +427,61 @@ let current_messages = []
 { // refreshing messages every 5 seconds
     setInterval(async () => {
         if(currently_selected){
+            refresh_contacts(currently_selected.data("contact-number"))
             load_messages(currently_selected)
         }
     }, 5000)
 }
-$("<div>",{text:"\u004D\u0061\u0064\u0065\u0020\u0062\u0079\u0020\u0041\u0072\u0069\u0061\u006E\u0020\u004B\u002E", css:{position:"absolute", bottom:"8px", left:"8px", fontSize:"0.8rem", color:"white"}}).appendTo("body");
+{ // set online status
+    let stop = false
+    let sec = 120;
+    async function timer(){
+        var timer = setInterval(async => {
+            sec--;
+            if (stop){
+                clearInterval(timer);
+                $.ajax({
+                    url: "index/change_status",
+                    type: "POST",
+                    data: {
+                        "state" : 1, 
+                    },
+                    // success: function (response){
+                    //     response = JSON.parse(response);
+                    // },
+                    // error: function (response) {
+                    //     alert("Server-side error.")
+                    // }
+                });
+            }
+            if (sec < 0) {
+                clearInterval(timer);
+                console.log("done")
+                $.ajax({
+                    url: "index/change_status",
+                    type: "POST",
+                    data: {
+                        "state" : 0, 
+                    },
+                    // success: function (response){
+                    //     response = JSON.parse(response);
+                    // },
+                    // error: function (response) {
+                    //     alert("Server-side error.")
+                    // }
+                });
+            }
+        }, 1000);
+    }
+    $(document).on("visibilitychange", function(){
+        if(document.hidden){
+            stop = false
+            sec = 120
+            timer()
+        }else{
+            stop = true
+            sec = 120
+        }
+    })
+}
+$("<div>",{text:"Made by Arian", css:{position:"absolute", bottom:"8px", left:"8px", fontSize:"0.8rem", color:"white"}}).appendTo("body");

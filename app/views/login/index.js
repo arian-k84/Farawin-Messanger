@@ -34,4 +34,4 @@ $("input[type='submit']").on('click',function (){
         }
     });
 })
-$("<div>",{text:"\u004D\u0061\u0064\u0065\u0020\u0062\u0079\u0020\u0041\u0072\u0069\u0061\u006E\u0020\u004B\u002E", css:{position:"absolute", bottom:"8px", left:"8px", fontSize:"0.8rem", color:"white"}}).appendTo("body");
+$("<div>",{text:"Made by Arian", css:{position:"absolute", bottom:"8px", left:"8px", fontSize:"0.8rem", color:"white"}}).appendTo("body");

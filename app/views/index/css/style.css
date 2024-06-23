@@ -132,12 +132,11 @@ html, body {
   width: 100%;
   height: 100%;
 }
-.main-wrapper > .profile-popup > #profile-container > #info-section > #name {
-  flex: 1 0;
+.main-wrapper > .profile-popup > #profile-container > #info-section > p {
   max-height: 15%;
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: bolder;
-  margin-top: 6%;
+  margin-top: 9%;
   margin-bottom: 7%;
   border-bottom: 2px solid rgb(255, 202, 56);
 }
@@ -327,6 +326,7 @@ html, body {
   margin-left: 8px;
   background-repeat: no-repeat;
   background-size: cover;
+  transition: 0.2s;
 }
 .main-wrapper > .main-container > .contact-wrapper > .contacts-container .contact-card .message-wrapper {
   flex: 0 0;
@@ -597,6 +597,16 @@ html, body {
   border-bottom-right-radius: 12px;
   margin-bottom: 5%;
   overflow-y: auto;
+}
+.main-wrapper > .main-container > #messenger-container > #messenger-wrapper > #messages-container > div > .date {
+  display: flex;
+  color: white;
+  width: 50%;
+  margin: 0 auto;
+  border-bottom: 1px solid white;
+  font-size: 1rem;
+  opacity: 0.4;
+  justify-content: center;
 }
 .main-wrapper > .main-container > #messenger-container > #messenger-wrapper > #messages-container > div > .user-message {
   display: inline-block; /* Allows the div to shrink to fit its content */

@@ -24,6 +24,11 @@ html{
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
+.hidden{
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+}
 .hidden_text{
     color: rgba(0,0,0,0);
 }
@@ -73,6 +78,40 @@ html{
                 width: 100%;
                 padding-left: 8px;
             }
+        }
+        #password-box{
+            label{
+                div{
+                    position: relative;
+                    #conditions-box{
+                        position: absolute;
+                        display: flex;
+                        justify-content: space-around;
+                        align-items: center;
+                        flex-direction: column;
+                        // overflow: auto;
+                        gap: 6px;
+                        width: 100%;
+                        height: max-content;
+                        padding: 5px 0;
+                        background-color: rgb(34, 34, 34);
+                        top: 0;
+                        border-bottom-left-radius: 12px;
+                        border-bottom-right-radius: 12px;
+                        transition: 0.2s;
+                        p{
+                            width: 98%;
+                            margin: 0;
+                            padding: 0;
+                            color: rgba(255,255,255,0.7);
+                            font-size: 0.8rem;
+                            padding-left: 5px;
+                            // border-bottom: 2px solid rgba(30, 30, 30, 0.7);
+                        }
+                    }
+                }
+            }
+
         }
         h1{
             text-align: center;

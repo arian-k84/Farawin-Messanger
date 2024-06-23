@@ -23,6 +23,12 @@ html {
   overflow-wrap: break-word;
 }
 
+.hidden {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+}
+
 .hidden_text {
   color: rgba(0, 0, 0, 0);
 }
@@ -66,6 +72,34 @@ html {
 #register_box form #pnumber-box input, #register_box form #password-box input, #register_box form #cpassword-box input {
   width: 100%;
   padding-left: 8px;
+}
+#register_box form #password-box label div {
+  position: relative;
+}
+#register_box form #password-box label div #conditions-box {
+  position: absolute;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  height: -moz-max-content;
+  height: max-content;
+  padding: 5px 0;
+  background-color: rgb(34, 34, 34);
+  top: 0;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  transition: 0.2s;
+}
+#register_box form #password-box label div #conditions-box p {
+  width: 98%;
+  margin: 0;
+  padding: 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
+  padding-left: 5px;
 }
 #register_box form h1 {
   text-align: center;

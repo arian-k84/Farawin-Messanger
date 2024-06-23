@@ -11,27 +11,36 @@ class model_register extends Model
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST"){
             $response = array();
-            if($post["pnumber"]){
-                if(preg_match("/^[\w]*$/", $post["pnumber"])){
-                    $sql = "SELECT * FROM users WHERE pnumber=?";
-                    $params = array($post['pnumber']);
-                    $result = $this->doSelect($sql, $params);
-                    if (sizeof($result) == 0) {
-                        $sql = "INSERT INTO users (pnumber,password,register_date) VALUES (?,?,?)";
-                        $params = array($post['pnumber'], md5($post['password']), self::jalali_date("Y/m/d"));
-                        $this->doQuery($sql, $params);
-                        $this->session_set("number", $post['pnumber']);
-                        $this->session_set("id", $this->doSelect("SELECT id FROM users WHERE pnumber=" . $post['pnumber'])[0]['id']);
-                        $this->checkLogin = $post['pnumber'];
+            $num = $this->check_param($post["pnumber"]);
+            if($num){
+                if(preg_match("/^[6789][0-9]{9}$/", $num) && preg_match("/^[\w]*$/", $num)){
+                    if(preg_match("/^(?=.*\d)/", $post["password"]) && preg_match("/[a-z]/", $post["password"]) && preg_match("/.[A-Z]/", $post["password"]) && preg_match("/.{6,20}/", $post["password"])){
+                        $sql = "SELECT * FROM users WHERE pnumber=?";
+                        $params = array($num);
+                        $result = $this->doSelect($sql, $params);
+                        if(sizeof($result) == 0){
+                            $sql = "INSERT INTO users (pnumber,password,register_date) VALUES (?,?,?)";
+                            $params = array($num, md5($post['password']), self::jalali_date("Y/m/d"));
+                            $this->doQuery($sql, $params);
+                            $this->session_set("number", $num);
+                            $this->session_set("id", $this->doSelect("SELECT id FROM users WHERE pnumber=" . $num)[0]['id']);
+                            $this->checkLogin = $num;
+                            $response += array(
+                                "type" => "success",
+                                "code" => 0
+                            );
+                        }else{
+                            $response += array(
+                                // number already exists
+                                "type" => "error",
+                                "code" =>  2
+                            );
+                        }
+                    }else{
                         $response += array(
-                            "type" => "success",
-                            "code" => 0
-                        );
-                    } else {
-                        $response += array(
-                            // number already exists
+                            // password conditions not met
                             "type" => "error",
-                            "code" =>  2
+                            "code" =>  3
                         );
                     }
                 }else{

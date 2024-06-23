@@ -90,6 +90,9 @@ $("input[type='submit']").on('click',function (){
                                     $("#pnumber-box .error_text").text("*Phone number already registered.")
                                     $("#pnumber-box .error_text").removeClass("hidden_text")
                                     break
+                                case 3:
+                                    $("#password-box .error_text").text("*Password conditions not met.")
+                                    $("#password-box .error_text").removeClass("hidden_text")
                             }
                         }
                     };
@@ -104,4 +107,39 @@ $("input[type='submit']").on('click',function (){
         $("#cpassword-box .error_text").removeClass("hidden_text")
     }
 })
-$("<div>",{text:"\u004D\u0061\u0064\u0065\u0020\u0062\u0079\u0020\u0041\u0072\u0069\u0061\u006E\u0020\u004B\u002E", css:{position:"absolute", bottom:"8px", left:"8px", fontSize:"0.8rem", color:"white"}}).appendTo("body");
+$("input[Name='password']").on('focus',function (){
+    let info_modal = $("#password-box #conditions-box")
+    info_modal.toggleClass("hidden")
+    info_modal.css({'transform': 'translateY(' + parseFloat($("#password-box input").css("height")) +  'px)'})
+    info_modal.children().removeAttr("style")
+})
+$("input[Name='password']").on('blur',function (){
+    let info_modal = $("#password-box #conditions-box")
+    info_modal.toggleClass("hidden")
+    info_modal.css({'transform': 'initial'})
+})
+$("input[Name='password']").on('input',function (){
+    let info_modal = $("#password-box #conditions-box")
+    let pass = $("input[Name='password']").val()
+    if(pass.match(/^(?=.*\d)/)){
+        info_modal.children().eq(0).css("color", "green")
+    }else{
+        info_modal.children().eq(0).css("color", "rgb(230, 15, 15)")
+    }
+    if(pass.match(/[a-z]/)){
+        info_modal.children().eq(1).css("color", "green")
+    }else{
+        info_modal.children().eq(1).css("color", "rgb(230, 15, 15)")
+    }
+    if(pass.match(/.[A-Z]/)){
+        info_modal.children().eq(2).css("color", "green")
+    }else{
+        info_modal.children().eq(2).css("color", "rgb(230, 15, 15)")
+    }
+    if(pass.match(/.{6,20}/)){
+        info_modal.children().eq(3).css("color", "green")
+    }else{
+        info_modal.children().eq(3).css("color", "rgb(230, 15, 15)")
+    }
+})
+$("<div>",{text:"Made by Arian", css:{position:"absolute", bottom:"8px", left:"8px", fontSize:"0.8rem", color:"white"}}).appendTo("body");
