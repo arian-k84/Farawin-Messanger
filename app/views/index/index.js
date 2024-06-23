@@ -22,15 +22,22 @@ let last_date;
                     }
                     total++
                 }
+
                 if(counter == total){
                     for(let [val, i] of response.entries()){
                         $(".contacts-container .contact-card").each(function (){
                             if($(this).data("contact-id") == i["contact_id"] && i["status"] == 1){
-                                $(this).css('filter', 'brightnesss(1)')
-                                return
+                                $(this).children("img").css({
+                                    filter: "brightness(1)"
+                                })
+                            }else if($(this).data("contact-id") == i["contact_id"] && i["status"] == 0){
+                                $(this).children("img").css({
+                                    filter: "brightness(0.7)"
+                                })
                             }
                         })
                     }
+                    return
                 }else{
                     card = $(".contacts-container>.contact-card:first").clone(true)
                     card.removeClass("hidden")
@@ -45,7 +52,7 @@ let last_date;
                         new_card.data('name', i["name"])
                         new_card.data('contact-id', i["contact_id"])
                         new_card.data('contact-number', i["contact_pnumber"])
-                        if(i["contact_pnumber"] == num){
+                        if(currently_selected && i["contact_pnumber"] == currently_selected.data("contact-number")){
                             new_card.data('selected', true)
                             new_card.css("background-color", "rgb(255, 202, 56)")
                             new_card.children(".message-wrapper").children().css("color", "white")
@@ -79,6 +86,9 @@ let last_date;
         });
     }
     function load_messages(contact, receive = false){
+        if(!contact || typeof contact.data === 'undefined'){
+            return
+        }
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: "index/load_messages",
@@ -320,7 +330,6 @@ let last_date;
             name.attr("contentEditable", false);
             name.removeAttr('style');
             
-            // console.log($('.contacts-container').find(`.contact-card[data-contact-number='9378764087']`).data('contact-id'))
             if(name.text() != previous_name){
                 $.ajax({
                     url: "index/edit_contact",
@@ -425,11 +434,9 @@ let last_date;
     })
 }
 { // refreshing messages every 5 seconds
-    setInterval(async () => {
-        if(currently_selected){
-            refresh_contacts(currently_selected.data("contact-number"))
-            load_messages(currently_selected)
-        }
+    setInterval(() => {
+        refresh_contacts()
+        load_messages(currently_selected)
     }, 5000)
 }
 { // set online status
@@ -456,19 +463,12 @@ let last_date;
             }
             if (sec < 0) {
                 clearInterval(timer);
-                console.log("done")
                 $.ajax({
                     url: "index/change_status",
                     type: "POST",
                     data: {
                         "state" : 0, 
                     },
-                    // success: function (response){
-                    //     response = JSON.parse(response);
-                    // },
-                    // error: function (response) {
-                    //     alert("Server-side error.")
-                    // }
                 });
             }
         }, 1000);
@@ -481,6 +481,7 @@ let last_date;
         }else{
             stop = true
             sec = 120
+            timer()
         }
     })
 }

@@ -105,7 +105,7 @@ class model_index extends Model
     }
     function logout()
     {
-        $this->doQuery(("UPDATE users SET status=" . 0 . " WHERE user_id=" . $this->session_get("id")));
+        $this->doQuery("UPDATE users SET status=" . 0 . " WHERE pnumber=" . $this->session_get("number"));
         $_SESSION = array();
         session_destroy();
     }

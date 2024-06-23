@@ -25,6 +25,13 @@ $("input[type='submit']").on('click',function (){
                     $("#password-box .error_text").removeClass("hidden_text")
                     break
                 case 1:
+                    $.ajax({
+                        url: "index/change_status",
+                        type: "POST",
+                        data: {
+                            "state" : 1, 
+                        },
+                    });
                     location.reload()
                     break
             };

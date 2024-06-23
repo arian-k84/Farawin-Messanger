@@ -80,6 +80,13 @@ $("input[type='submit']").on('click',function (){
                         if(res == "code"){
                             switch(response[res]){
                                 case 0:
+                                    $.ajax({
+                                        url: "index/change_status",
+                                        type: "POST",
+                                        data: {
+                                            "state" : 1, 
+                                        },
+                                    });
                                     location.reload()
                                     break
                                 case 1:
