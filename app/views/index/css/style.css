@@ -211,12 +211,10 @@ p {
   position: relative;
   width: clamp(40vw, 100vh, 90vw);
   height: 35%;
-  background-color: rgb(29, 29, 29);
+  background-color: rgb(33, 33, 33);
   border-radius: 12px;
   overflow: hidden;
   gap: 10px;
-  background: linear-gradient(rgb(32, 32, 32), rgb(32, 32, 32)) padding-box, linear-gradient(to left, rgb(255, 202, 56), rgb(111, 187, 241)) border-box;
-  border: 2px solid transparent;
 }
 .main-wrapper > .edit-message-popup > #controls-container > #close-btn {
   position: absolute;
@@ -243,7 +241,7 @@ p {
   color: white;
   border-radius: 12px;
   resize: none;
-  background: linear-gradient(rgb(39, 39, 39), rgb(39, 39, 39)) padding-box, linear-gradient(to right, rgb(255, 202, 56), rgb(111, 187, 241)) border-box;
+  background: linear-gradient(rgb(46, 46, 46), rgb(46, 46, 46)) padding-box, linear-gradient(to right, rgb(255, 202, 56), rgb(111, 187, 241)) border-box;
   border: 2px solid transparent;
   font-size: 1rem;
   padding: 10px;
