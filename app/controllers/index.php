@@ -47,7 +47,14 @@ class Index extends Controller
     {
         $this->model->send_message($_POST);
     }
-
+    function edit_message()
+    {
+        $this->model->edit_message($_POST);
+    }
+    function delete_message()
+    {
+        $this->model->delete_message($_POST);
+    }
     function change_status()
     {
         $this->model->change_status($_POST);

@@ -47,6 +47,17 @@
             </div>
         </div>
 
+        <div class="edit-message-popup hidden">
+            <div id="controls-container">
+                <button id="close-btn">+</button>
+                <textarea id="edit-message-area" maxlength="255" wrap="soft"></textarea>
+                <div>
+                    <button id="confirm">Confirm</button>
+                    <button id="delete">Delete</button>
+                </div>
+            </div>
+        </div>
+
         <div class="main-container">
             <div id="messenger-container">
                 <div id="cover">

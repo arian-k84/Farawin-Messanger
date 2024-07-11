@@ -2,6 +2,7 @@ let contacts;
 let currently_selected;
 let current_contacts = []
 let current_messages = []
+let msg_delete_warned = false
 let last_date;
 { // loading functions/refreshing contacts
     // refreshing contacts
@@ -85,7 +86,7 @@ let last_date;
             }
         });
     }
-    function load_messages(contact, receive = false){
+    function load_messages(contact, receive = false, forced_clear = false){
         if(!contact || typeof contact.data === 'undefined'){
             return
         }
@@ -105,7 +106,10 @@ let last_date;
                     }
                     
                     message_data.sort((a, b) => a.id - b.id);
-                    
+                    if(forced_clear){
+                        current_messages = []
+                        $("#messenger-container #messages-container").children().empty()
+                    }
                     if(!receive){
                         if((current_messages.length == 0 || message_data.length == 0) || message_data.length < current_messages.length){
                             current_messages = []
@@ -131,6 +135,7 @@ let last_date;
                                         fontSize: '0.9rem',
                                         margin: 0,
                                     }).text(time[0] + ":" + time[1]));
+                                    p.data("msg-id", data["id"])
                                 } else {
                                     let p = $("<p class='user-message'></p>").text(data["message"]).appendTo($("#messenger-container #messages-container > div"));
                                     p.append($('<p>').css({
@@ -138,6 +143,14 @@ let last_date;
                                         fontSize: '0.9rem',
                                         margin: 0,
                                     }).text(time[0] + ":" + time[1]));
+                                    // open message editor popup
+                                    p.data("msg-id", data["id"])
+                                    p.on("click", function(){
+                                        $(".main-wrapper .edit-message-popup").removeClass("hidden")
+                                        $(".main-wrapper .edit-message-popup").data("msg-id", $(this).data("msg-id"))
+                                        $(".main-wrapper .edit-message-popup").data("current-msg", $(this).contents().filter(function(){ return this.nodeType == Node.TEXT_NODE;})[0].nodeValue)
+                                        $(".main-wrapper .edit-message-popup #controls-container textarea").val($(this).contents().filter(function(){ return this.nodeType == Node.TEXT_NODE;})[0].nodeValue)
+                                    })
                                 }
                             }
                         })
@@ -202,7 +215,7 @@ let last_date;
                 }
             })
         })
-        // edit mode button
+        // contact profile button
         $("#messenger-container>#messenger-wrapper>#top-bar>#options-btn").on('click',function (){
             let profile = $(".main-wrapper>.profile-popup>#profile-container")
             profile.find("#info-section>div #name").text(currently_selected.data("name"))
@@ -354,6 +367,7 @@ let last_date;
             name_change = false
         }
     })
+
     // mobile back button
     $("#messenger-wrapper > #top-bar #mobile-back-btn").on('click', function(){
         $("#messenger-container").css({
@@ -411,8 +425,7 @@ let last_date;
     })
 }
 { // messaging functions
-    $("#messenger-container #bottom-bar #message-buttons>#send-button").on("click", function(){
-        let message = $("#messenger-container #bottom-bar #message-input>input").val()
+    function send_message(message){
         if(message.length > 0){
             $.ajax({
                 url: "index/send_message",
@@ -431,7 +444,67 @@ let last_date;
                 }
             });
         }
+    }
+    // send message whenever enter without shift is presssed
+    $("#messenger-container #bottom-bar #message-input>input").keypress(function (e) {
+        if (e.which == 13 && !e.shiftKey) {
+            send_message($("#messenger-container #bottom-bar #message-input>input").val())
+        }
     })
+    // send message on button click
+    $("#messenger-container #bottom-bar #message-buttons>#send-button").on("click", function(){
+        send_message($("#messenger-container #bottom-bar #message-input>input").val())
+    })
+    // close message editor popup
+    $(".main-wrapper .edit-message-popup #controls-container #close-btn").on("click", function(){
+        $(".main-wrapper .edit-message-popup").addClass("hidden")
+    })
+    // confirm message changes
+    $(".main-wrapper .edit-message-popup #controls-container div #confirm").on("click", function(){
+        let new_msg = $(".main-wrapper .edit-message-popup #controls-container textarea").val()
+        if($(".main-wrapper .edit-message-popup").data("current-msg") != new_msg){
+            $.ajax({
+                url: "index/edit_message",
+                type: "POST",
+                data: {
+                    "id" : $(".main-wrapper .edit-message-popup").data("msg-id"),
+                    "msg" : new_msg, 
+                },
+                success: function (response){
+                    load_messages(currently_selected, false, true)
+                },
+                error: function (response) {
+                    alert("Server-side error.")
+                }
+            });
+        }
+        $(".main-wrapper .edit-message-popup").addClass("hidden")
+    })
+    // delete message
+    $(".main-wrapper .edit-message-popup #controls-container div #delete").on("click", function(){
+        $(".main-wrapper .edit-message-popup #controls-container div #delete").text("Delete")
+        if(!msg_delete_warned){
+            $(".main-wrapper .edit-message-popup #controls-container div #delete").text("Click again to delete")
+            msg_delete_warned = true
+        }else{
+            $.ajax({
+                url: "index/delete_message",
+                type: "POST",
+                data: {
+                    "id" : $(".main-wrapper .edit-message-popup").data("msg-id"),
+                },
+                success: function (response){
+                    $(".main-wrapper .edit-message-popup").addClass("hidden")
+                    load_messages(currently_selected)
+                    msg_delete_warned = false
+                },
+                error: function (response) {
+                    alert("Server-side error.")
+                }
+            });
+        }
+    })
+
 }
 { // refreshing messages every 5 seconds
     setInterval(() => {

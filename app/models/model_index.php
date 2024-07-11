@@ -96,6 +96,16 @@ class model_index extends Model
         ));
     }
 
+    function edit_message($post)
+    {
+        $this->doQuery("UPDATE messages SET message='" . $post["msg"] . "' WHERE id=" . $post["id"]);
+    }
+    
+    function delete_message($post)
+    {
+        $this->doQuery("DELETE FROM messages WHERE id=" . $post["id"]);
+    }
+    
     function change_status($post){
         if($post["state"] == 1){
             $this->doQuery("UPDATE users SET status=" . 1 . " WHERE pnumber=" . $this->session_get("number"));

@@ -14,7 +14,7 @@ html, body{
     height: 100%;
     background-color: rgb(32, 32, 32);
     font-size: clamp(10px, 1.3vw, 28px);
-    background-image: url(main-background-sprinkle.svg);
+    // background-image: url(main-background-sprinkle.svg);
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -37,6 +37,10 @@ html, body{
     margin-bottom: 5px;
     position: absolute;
     top: 30px;
+}
+
+p{
+    user-select: none;
 }
 
 .main-wrapper{
@@ -182,6 +186,110 @@ html, body{
                                 font-size: 1.2rem;
                             }
                         }
+                    }
+                }
+            }
+        }
+    }
+    >.edit-message-popup{
+        position: absolute;
+        @include flex($jc: center, $ai: center);
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(29,29,29,0.7);
+        z-index: 10;
+        color: $background-color;
+        transition: all 0.3s;
+        >#controls-container{
+            @include flex($jc: center, $ai: center);
+            // display: grid;
+            // grid-auto-flow: row;
+            flex-direction: column;
+            position: relative;
+            width: clamp(40vw, 100vh, 90vw);
+            height: 35%;
+            background-color: rgb(29, 29, 29);
+            border-radius: 12px;
+            overflow: hidden;
+            gap: 10px;
+            background: linear-gradient(rgb(32, 32, 32), rgb(32, 32, 32)) padding-box,
+            linear-gradient(to left, $primary-color, $secondary-color) border-box;
+            border: 2px solid transparent;
+            >#close-btn{
+                position: absolute;
+                rotate: (45deg);
+                color: white;
+                min-width: 40px;
+                min-height: 40px;
+                font-size: 50px;
+                // aspect-ratio: 1/1;
+                // background-color: rgb(200, 200, 200);
+                background-color: rgba(0,0,0,0);
+                // border-radius: 50%;
+                border: transparent;
+                padding: 0;
+                // margin-left: 8px;
+                transition: color 0.25s, transform 0.25s;
+                top: 7px;
+                left: 7px;
+                line-height: 19px;
+                &:hover{
+                    outline: none;
+                    color: $primary-color;
+                }
+            }
+            >textarea{
+                width: 60%;
+                height: 12%;
+                // background-color: rgb(51, 51, 51);
+                color: white;
+                // border: none;
+                border-radius: 12px;
+                resize: none;
+                background: linear-gradient(rgb(39, 39, 39), rgb(39, 39, 39)) padding-box,
+                linear-gradient(to right, $primary-color, $secondary-color) border-box;
+                border: 2px solid transparent;
+                font-size: 1rem;
+                padding: 10px;
+                overflow-y: hidden;
+                margin-top: 20px;
+                &:focus{
+                    outline: none;
+                }
+            }
+            >div{
+                @include flex($jc: space-between, $ai: center);
+                width: 63%;
+                height: 20%;
+                // gap: 20px;
+                margin-top: 20px;
+                >#confirm{
+                    color: white;
+                    background-color: $primary-color;
+                    min-width: 45%;
+                    min-height: 90%;
+                    border: none;
+                    font-size: 1rem;
+                    font-weight: bolder;
+                    transition: 0.25s;
+                    border-radius: 12px;
+                    &:hover{
+                        filter: brightness(120%);
+                    }
+                }
+                >#delete{
+                    color: white;
+                    background-color: $secondary-color;
+                    min-width: 45%;
+                    min-height: 90%;
+                    border: none;
+                    font-size: 1rem;
+                    font-weight: bolder;
+                    transition: 0.25s;
+                    border-radius: 12px;
+                    &:hover{
+                        filter: brightness(120%);
                     }
                 }
             }
@@ -546,6 +654,8 @@ html, body{
             background-color: rgb(19, 19, 19);
             border-radius: 12px;
             overflow: hidden;
+            
+            
             >#cover{
                 @include flex($jc: center, $ai: center);
                 width: 100%;
@@ -694,6 +804,11 @@ html, body{
                             margin-bottom: 10px;
                             margin-top: 10px;
                             flex: 0;
+                            transition: 0.25s;
+                            z-index: 1;
+                            &:hover{
+                                filter: brightness(130%);
+                            }
                         }
                         >.contact-message{
                             // margin: 10px;
@@ -716,6 +831,7 @@ html, body{
                             margin-bottom: 10px;
                             margin-top: 10px;
                             flex: 0;
+                            z-index: 1;
                         }
                     }
                 }
@@ -792,6 +908,23 @@ html, body{
                     }
                 }
             }
+        }
+        >#messenger-container::before{
+            content: ' ';
+            display: block;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-repeat: no-repeat;
+            background-position: 50% 0;
+            background-size: cover;
+            background-image: url(main-background-sprinkle.svg);
+            user-select: none;
+            pointer-events: none;
+            z-index: 0;
         }
     }
 }
