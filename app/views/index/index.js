@@ -150,6 +150,9 @@ let last_date;
                                         $(".main-wrapper .edit-message-popup").data("msg-id", $(this).data("msg-id"))
                                         $(".main-wrapper .edit-message-popup").data("current-msg", $(this).contents().filter(function(){ return this.nodeType == Node.TEXT_NODE;})[0].nodeValue)
                                         $(".main-wrapper .edit-message-popup #controls-container textarea").val($(this).contents().filter(function(){ return this.nodeType == Node.TEXT_NODE;})[0].nodeValue)
+                                        $(".main-wrapper .edit-message-popup #controls-container div #delete").text("Delete")
+                                        $(".main-wrapper .edit-message-popup #controls-container div #delete").css("font-size", "1rem")
+                                        msg_delete_warned = false
                                     })
                                 }
                             }
@@ -482,9 +485,10 @@ let last_date;
     })
     // delete message
     $(".main-wrapper .edit-message-popup #controls-container div #delete").on("click", function(){
-        $(".main-wrapper .edit-message-popup #controls-container div #delete").text("Delete")
+        
         if(!msg_delete_warned){
             $(".main-wrapper .edit-message-popup #controls-container div #delete").text("Click again to delete")
+            $(".main-wrapper .edit-message-popup #controls-container div #delete").css("font-size", "0.8rem")
             msg_delete_warned = true
         }else{
             $.ajax({
@@ -496,7 +500,6 @@ let last_date;
                 success: function (response){
                     $(".main-wrapper .edit-message-popup").addClass("hidden")
                     load_messages(currently_selected)
-                    msg_delete_warned = false
                 },
                 error: function (response) {
                     alert("Server-side error.")

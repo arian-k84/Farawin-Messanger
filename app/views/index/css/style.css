@@ -258,6 +258,7 @@ p {
   flex-wrap: nowrap;
   width: 63%;
   height: 20%;
+  gap: 10px;
   margin-top: 20px;
 }
 .main-wrapper > .edit-message-popup > #controls-container > div > #confirm {
@@ -268,7 +269,7 @@ p {
   border: none;
   font-size: 1rem;
   font-weight: bolder;
-  transition: 0.25s;
+  transition: background-color 0.25s;
   border-radius: 12px;
 }
 .main-wrapper > .edit-message-popup > #controls-container > div > #confirm:hover {
@@ -282,7 +283,7 @@ p {
   border: none;
   font-size: 1rem;
   font-weight: bolder;
-  transition: 0.25s;
+  transition: background-color 0.25s;
   border-radius: 12px;
 }
 .main-wrapper > .edit-message-popup > #controls-container > div > #delete:hover {
@@ -944,5 +945,11 @@ p {
   }
   .main-wrapper > .main-container > #messenger-container > #messenger-wrapper > #bottom-bar #message-input input {
     font-size: 0.8rem !important;
+  }
+  .main-wrapper > .edit-message-popup #controls-container > textarea {
+    width: 66%;
+  }
+  .main-wrapper > .edit-message-popup #controls-container > div {
+    width: 70%;
   }
 }/*# sourceMappingURL=style.css.map */
